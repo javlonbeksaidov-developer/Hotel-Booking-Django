@@ -1,142 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Luxury Family Room | Aurelia Grand Hotel</title>
-<meta name="description" content="Five-star luxury hotel in Tashkent. Book rooms, suites, dining and spa.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="static/css/style.css">
-<link rel="stylesheet" href="static/css/components.css">
-<link rel="stylesheet" href="static/css/animations.css">
-<link rel="stylesheet" href="static/css/responsive.css">
-</head>
-<body class="page-room_detail">
-<div class="loader" id="loader" aria-hidden="true"><span>Aurelia</span></div>
-<a class="skip-link" href="#main">Skip to content</a>
+{% extends 'base.html' %}
+{% block content %}
 
-<header class="site-header solid" id="header">
-  <div class="container nav">
-    <a class="brand" href="index.html" aria-label="Aurelia Grand Hotel home">
-      <img src="static/images/logo/logo.svg" alt="" width="34" height="34" onerror="this.style.display='none'">
-      <span>Aurelia Grand Hotel</span>
-    </a>
-    <nav id="menu" class="menu" aria-label="Main navigation">
-      <a href="index.html" >Home</a>
-      <a href="about.html" >About</a>
-      <a href="rooms.html" class="active" aria-current="page">Rooms &amp; Suites</a>
-      <a href="services.html" >Services</a>
-      <a href="gallery.html" >Gallery</a>
-      <a href="location.html" >Location</a>
-      <a href="contact.html" >Contact</a>
-      <div class="menu-actions mobile-only">
-        <a class="btn btn-gold" href="booking.html">Book Now</a>
-      </div>
-    </nav>
-    <div class="nav-right">
-      <label class="visually-hidden" for="lang">Language</label>
-      <select id="lang" class="lang" aria-label="Language"><option>EN</option><option>UZ</option><option>RU</option></select>
-      <a class="btn btn-gold desktop-only" href="booking.html">Book Now</a>
-      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
-
-<main id="main">
-
-
-<section class="page-hero"><div class="container"><h1 class="rise">Luxury Family Room</h1><p class="muted rise d2">Family</p></div></section>
-
-<section class="section"><div class="container split">
-  <div class="img-frame"><img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Luxury Family Room" width="1200" height="800"></div>
-  <div><h2>Luxury Family Room</h2><p class="muted">Two connected spaces with room for the whole family and a kids&#x27; amenity set.</p>
-    <ul class="spec"><li><span>Price</span>$310 / night</li><li><span>Guests</span>Up to 5</li><li><span>Size</span>75 m&sup2;</li><li><span>Bed</span>King + two twin beds</li><li><span>Status</span>Available</li></ul>
-    <p class="muted">Includes breakfast, Wi-Fi, daily housekeeping, a marble bathroom with rain shower and a Nespresso machine.</p>
-    <div class="btn-row"><a class="btn btn-gold" href="booking.html?room=luxury-family-room">Book This Room</a><a class="btn btn-line" href="rooms.html">All Rooms</a></div></div>
-</div></section>
-<section class="section alt"><div class="container"><div class="section-head"><h2>You may also like</h2></div>
-  <div class="room-grid"><article class="room-card reveal" data-category="Deluxe" data-price="220" data-guests="2" data-available="1">
-  <a class="room-img" href="room-deluxe-room.html"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Deluxe Room" loading="lazy" width="600" height="420">
-    </a>
-  <div class="room-body">
-    <p class="cat">Deluxe</p>
-    <h3><a href="room-deluxe-room.html">Deluxe Room</a></h3>
-    <p class="muted">A calm room in warm neutrals with a king bed, marble bathroom and city views.</p>
-    <ul class="meta"><li>2 guests</li><li>38 m&sup2;</li><li>King bed</li></ul>
-    <div class="room-foot"><p class="price">$220 <small>/ night</small></p>
-      <div class="btn-row"><a class="btn btn-line" href="room-deluxe-room.html">View Details</a>
-      <a class="btn btn-gold" href="booking.html?room=deluxe-room">Book Now</a></div></div>
-  </div>
-</article>
-<article class="room-card reveal" data-category="Suite" data-price="390" data-guests="3" data-available="1">
-  <a class="room-img" href="room-executive-suite.html"><img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Executive Suite" loading="lazy" width="600" height="420">
-    </a>
-  <div class="room-body">
-    <p class="cat">Suite</p>
-    <h3><a href="room-executive-suite.html">Executive Suite</a></h3>
-    <p class="muted">A separate living area, work desk and lounge access for longer stays.</p>
-    <ul class="meta"><li>3 guests</li><li>62 m&sup2;</li><li>King bed + sofa bed</li></ul>
-    <div class="room-foot"><p class="price">$390 <small>/ night</small></p>
-      <div class="btn-row"><a class="btn btn-line" href="room-executive-suite.html">View Details</a>
-      <a class="btn btn-gold" href="booking.html?room=executive-suite">Book Now</a></div></div>
-  </div>
-</article>
-<article class="room-card reveal" data-category="Suite" data-price="980" data-guests="4" data-available="0">
-  <a class="room-img" href="room-presidential-suite.html"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Presidential Suite" loading="lazy" width="600" height="420">
-    <span class="tag">Sold out</span></a>
-  <div class="room-body">
-    <p class="cat">Suite</p>
-    <h3><a href="room-presidential-suite.html">Presidential Suite</a></h3>
-    <p class="muted">Our top floor residence with a private terrace, dining room and butler service.</p>
-    <ul class="meta"><li>4 guests</li><li>140 m&sup2;</li><li>Two king beds</li></ul>
-    <div class="room-foot"><p class="price">$980 <small>/ night</small></p>
-      <div class="btn-row"><a class="btn btn-line" href="room-presidential-suite.html">View Details</a>
-      </div></div>
-  </div>
-</article>
-</div></div></section>
-
-</main>
-<footer class="footer">
-  <div class="container footer-grid">
+<section class="section">
+  <div class="container split">
+    <div class="img-frame"><img
+        src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
+        alt="Luxury Family Room" width="1200" height="800"></div>
     <div>
-      <a class="brand" href="index.html"><span>Aurelia Grand Hotel</span></a>
-      <p class="muted">A five-star city retreat where quiet design, attentive service and fine dining come together.</p>
-    </div>
-    <div>
-      <h4>Explore</h4>
-      <ul class="plain">
-        <li><a href="about.html">About</a></li><li><a href="rooms.html">Rooms &amp; Suites</a></li>
-        <li><a href="services.html">Services</a></li><li><a href="gallery.html">Gallery</a></li>
-        <li><a href="booking.html">Book a stay</a></li>
+      <h2>Luxury Family Room</h2>
+      <p class="muted">Two connected spaces with room for the whole family and a kids&#x27; amenity set.</p>
+      <ul class="spec">
+        <li><span>Price</span>$310 / night</li>
+        <li><span>Guests</span>Up to 5</li>
+        <li><span>Size</span>75 m&sup2;</li>
+        <li><span>Bed</span>King + two twin beds</li>
+        <li><span>Status</span>Available</li>
       </ul>
-    </div>
-    <div>
-      <h4>Contact</h4>
-      <ul class="plain muted">
-        <li>1 Amir Temur Avenue, Tashkent, Uzbekistan</li><li><a href="tel:+998 71 200 00 00">+998 71 200 00 00</a></li>
-        <li><a href="mailto:stay@aureliagrand.example">stay@aureliagrand.example</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Follow</h4>
-      <ul class="plain">
-        <li><a href="https://instagram.com" rel="noopener" target="_blank">Instagram</a></li>
-        <li><a href="https://facebook.com" rel="noopener" target="_blank">Facebook</a></li>
-        <li><a href="https://t.me" rel="noopener" target="_blank">Telegram</a></li>
-      </ul>
+      <p class="muted">Includes breakfast, Wi-Fi, daily housekeeping, a marble bathroom with rain shower and a Nespresso
+        machine.</p>
+      <div class="btn-row"><a class="btn btn-gold" href="booking.html?room=luxury-family-room">Book This Room</a><a
+          class="btn btn-line" href="rooms.html">All Rooms</a></div>
     </div>
   </div>
-  <div class="container copy">&copy; 2026 Aurelia Grand Hotel. All rights reserved.</div>
-</footer>
+</section>
+<section class="section alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>You may also like</h2>
+    </div>
+    <div class="room-grid">
+      <article class="room-card reveal" data-category="Deluxe" data-price="220" data-guests="2" data-available="1">
+        <a class="room-img" href="room-deluxe-room.html"><img
+            src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
+            alt="Deluxe Room" loading="lazy" width="600" height="420">
+        </a>
+        <div class="room-body">
+          <p class="cat">Deluxe</p>
+          <h3><a href="room-deluxe-room.html">Deluxe Room</a></h3>
+          <p class="muted">A calm room in warm neutrals with a king bed, marble bathroom and city views.</p>
+          <ul class="meta">
+            <li>2 guests</li>
+            <li>38 m&sup2;</li>
+            <li>King bed</li>
+          </ul>
+          <div class="room-foot">
+            <p class="price">$220 <small>/ night</small></p>
+            <div class="btn-row"><a class="btn btn-line" href="room-deluxe-room.html">View Details</a>
+              <a class="btn btn-gold" href="booking.html?room=deluxe-room">Book Now</a>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="room-card reveal" data-category="Suite" data-price="390" data-guests="3" data-available="1">
+        <a class="room-img" href="room-executive-suite.html"><img
+            src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
+            alt="Executive Suite" loading="lazy" width="600" height="420">
+        </a>
+        <div class="room-body">
+          <p class="cat">Suite</p>
+          <h3><a href="room-executive-suite.html">Executive Suite</a></h3>
+          <p class="muted">A separate living area, work desk and lounge access for longer stays.</p>
+          <ul class="meta">
+            <li>3 guests</li>
+            <li>62 m&sup2;</li>
+            <li>King bed + sofa bed</li>
+          </ul>
+          <div class="room-foot">
+            <p class="price">$390 <small>/ night</small></p>
+            <div class="btn-row"><a class="btn btn-line" href="room-executive-suite.html">View Details</a>
+              <a class="btn btn-gold" href="booking.html?room=executive-suite">Book Now</a>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="room-card reveal" data-category="Suite" data-price="980" data-guests="4" data-available="0">
+        <a class="room-img" href="room-presidential-suite.html"><img
+            src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
+            alt="Presidential Suite" loading="lazy" width="600" height="420">
+          <span class="tag">Sold out</span></a>
+        <div class="room-body">
+          <p class="cat">Suite</p>
+          <h3><a href="room-presidential-suite.html">Presidential Suite</a></h3>
+          <p class="muted">Our top floor residence with a private terrace, dining room and butler service.</p>
+          <ul class="meta">
+            <li>4 guests</li>
+            <li>140 m&sup2;</li>
+            <li>Two king beds</li>
+          </ul>
+          <div class="room-foot">
+            <p class="price">$980 <small>/ night</small></p>
+            <div class="btn-row"><a class="btn btn-line" href="room-presidential-suite.html">View Details</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
 
-<button class="to-top" id="toTop" aria-label="Back to top">&uarr;</button>
-<script src="static/js/navigation.js" defer></script>
-<script src="static/js/animations.js" defer></script>
-<script src="static/js/main.js" defer></script>
-<script src="static/js/booking.js" defer></script>
-<script src="static/js/gallery.js" defer></script>
-</body>
-</html>
+{% endblock content %}

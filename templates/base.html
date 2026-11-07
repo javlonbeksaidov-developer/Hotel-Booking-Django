@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Luxury Hotel in Tashkent | Aurelia Grand Hotel</title>
+    <title>Luxury Hotel in Samarkand | Aurelia Grand Hotel</title>
     <meta name="description" content="Five-star luxury hotel in Tashkent. Book rooms, suites, dining and spa.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
-    <link rel="stylesheet" href="static/css/responsive.css">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 </head>
 
 <body class="page-home">
@@ -29,26 +29,60 @@
                     onerror="this.style.display='none'">
                 <span>Aurelia Grand Hotel</span>
             </a>
+
             <nav id="menu" class="menu" aria-label="Main navigation">
-                <a href="index.html" class="active" aria-current="page">Home</a>
-                <a href="about.html">About</a>
-                <a href="rooms.html">Rooms &amp; Suites</a>
-                <a href="services.html">Services</a>
-                <a href="gallery.html">Gallery</a>
-                <a href="location.html">Location</a>
-                <a href="contact.html">Contact</a>
+                <a href="{% url 'hotels:home' %}" 
+                class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}" 
+                {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>
+                Home
+                </a>
+
+                <a href="{% url 'hotels:about' %}" 
+                class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}" 
+                {% if request.resolver_match.url_name == 'about' %}aria-current="page"{% endif %}>
+                About
+                </a>
+
+                <a href="{% url 'hotels:rooms' %}" 
+                class="{% if request.resolver_match.url_name == 'rooms' %}active{% endif %}" 
+                {% if request.resolver_match.url_name == 'rooms' %}aria-current="page"{% endif %}>
+                Rooms &amp; Suites
+                </a>
+
+                <a href="{% url 'hotels:services' %}" 
+                class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}" 
+                {% if request.resolver_match.url_name == 'services' %}aria-current="page"{% endif %}>
+                Services
+                </a>
+
+                <a href="{% url 'hotels:gallery' %}" 
+                class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}" 
+                {% if request.resolver_match.url_name == 'gallery' %}aria-current="page"{% endif %}>
+                Gallery
+                </a>
+
+                <a href="{% url 'hotels:location' %}" 
+                class="{% if request.resolver_match.url_name == 'location' %}active{% endif %}" 
+                {% if request.resolver_match.url_name == 'location' %}aria-current="page"{% endif %}>
+                Location
+                </a>
+
+                <a href="{% url 'hotels:contact' %}" 
+                class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}" 
+                {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>
+                Contact
+                </a>
+
                 <div class="menu-actions mobile-only">
-                    <a class="btn btn-gold" href="booking.html">Book Now</a>
+                    <a class="btn btn-gold {% if request.resolver_match.url_name == 'booking' %}active{% endif %}" 
+                    href="{% url 'bookings:booking' %}">
+                    Book Now
+                    </a>
                 </div>
             </nav>
+
             <div class="nav-right">
-                <label class="visually-hidden" for="lang">Language</label>
-                <select id="lang" class="lang" aria-label="Language">
-                    <option>EN</option>
-                    <option>UZ</option>
-                    <option>RU</option>
-                </select>
-                <a class="btn btn-gold desktop-only" href="booking.html">Book Now</a>
+                <a class="btn btn-gold desktop-only" href="{% url 'bookings:booking' %}">Book Now</a>
                 <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"
                     aria-controls="menu"><span></span><span></span><span></span></button>
             </div>
@@ -57,25 +91,25 @@
 
     <main id="main">
 
-    {% block content %} {% endblock content %}
+        {% block content %} {% endblock content %}
 
     </main>
 
     <footer class="footer">
         <div class="container footer-grid">
             <div>
-                <a class="brand" href="index.html"><span>Aurelia Grand Hotel</span></a>
+                <a class="brand" href="{% url 'hotels:home' %}"><span>Aurelia Grand Hotel</span></a>
                 <p class="muted">A five-star city retreat where quiet design, attentive service and fine dining come
                     together.</p>
             </div>
             <div>
                 <h4>Explore</h4>
                 <ul class="plain">
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="rooms.html">Rooms &amp; Suites</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="booking.html">Book a stay</a></li>
+                    <li><a href="{% url 'hotels:about' %}">About</a></li>
+                    <li><a href="{% url 'hotels:rooms' %}">Rooms &amp; Suites</a></li>
+                    <li><a href="{% url 'hotels:services' %}">Services</a></li>
+                    <li><a href="{% url 'hotels:gallery' %}">Gallery</a></li>
+                    <li><a href="{% url 'bookings:booking' %}">Book a stay</a></li>
                 </ul>
             </div>
             <div>
@@ -99,11 +133,11 @@
     </footer>
 
     <button class="to-top" id="toTop" aria-label="Back to top">&uarr;</button>
-    <script src="static/js/navigation.js" defer></script>
-    <script src="static/js/animations.js" defer></script>
-    <script src="static/js/main.js" defer></script>
-    <script src="static/js/booking.js" defer></script>
-    <script src="static/js/gallery.js" defer></script>
+    <script src="{% static 'js/navigation.js' %}" defer></script>
+    <script src="{% static 'js/animations.js' %}" defer></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
+    <script src="{% static 'js/booking.js' %}" defer></script>
+    <script src="{% static 'js/gallery.js' %}" defer></script>
 </body>
 
 </html>
