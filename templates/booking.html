@@ -4,6 +4,7 @@
 <section class="section">
   <div class="container narrow">
     <form class="form" data-demo id="bookingForm">
+      {% csrf_token %}
       <div class="field"><label for="broom">Room</label><select id="broom" name="room" required>
           <option value="deluxe-room" data-price="220">Deluxe Room - $220/night</option>
           <option value="executive-suite" data-price="390">Executive Suite - $390/night</option>

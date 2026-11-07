@@ -9,7 +9,10 @@ class BookingService:
     @staticmethod
     def create_room_booking(user, room_id, check_in, check_out):
         room = get_object_or_404(Room, pk=room_id)
-        total_price = room.price_per_night
+
+        nights = (check_out - check_in).days
+        total_price = room.price_per_night * nights
+
         booking = Booking.objects.create(
             user=user,
             room=room,
@@ -17,7 +20,5 @@ class BookingService:
             check_out=check_out,
             total_price=total_price,
         )
-        room.is_available = False
-        room.save()
 
         return booking
