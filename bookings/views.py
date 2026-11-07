@@ -27,6 +27,10 @@ def booking_page(request):
 
 
 def create_booking(request, room_id):
+    """
+    Foydalanuvchining xonani bron qilish bo'yicha HTTP so'rovlarini (*GET/POST*) 
+    qabul qiluvchi va qayta ishlovchi ko'rinish (View) interfeysi.
+    """
     room = get_object_or_404(Room, pk=room_id)
 
     if request.method == "POST":
