@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 
 from hotels.models import Room
@@ -12,6 +13,7 @@ class BookingService:
     """
 
     @staticmethod
+    @transaction.atomic     # Tranzaksiyalar atomiyligini ta'minlash dekoratori
     def create_room_booking(user, room_id, check_in, check_out):
         """
         Berilgan foydalanuvchi va xona ma'lumotlari asosida yangi bron yaratadi
@@ -46,5 +48,9 @@ class BookingService:
             check_out=check_out,
             total_price=total_price,
         )
+
+        # Xona holatini band qilishga o'zgartirish
+        room.is_available = False
+        room.save()
 
         return booking
