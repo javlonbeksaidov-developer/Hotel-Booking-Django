@@ -1,3 +1,30 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
+from hotels.models import Room
+
+
+class Booking(models.Model):
+    class BookingStatus(models.TextChoices):
+        PENDING = "PENDING", "Kutilmoqda"
+        CONFIRMED = "CONFIRMED", "Tasdiqlangan"
+        CHECKED_IN = "CHECKED_IN", "Joylashgan"
+        CHECKED_OUT = "CHECKED_OUT", "Chiqib ketgan"
+        CANCELLED = "CANCELLED", "Bekor qilingan"
+        REJECTED = "REJECTED", "Rad etilgan"
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bookings",verbose_name="Buyurtmachi")
+    room = models.ForeignKey(Room, on_delete=models.PROTECT, related_name="bookings", verbose_name="Xona")
+    check_in = models.DateField(verbose_name="Kirish sanasi")
+    check_out = models.DateField(verbose_name="Chiqish sanasi")
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Umumiy narx")
+    status = models.CharField(max_length=20, choices=BookingStatus.choices, default=BookingStatus.PENDING, verbose_name="Bron holati")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yaratilgan vaqt")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Yangilangan vaqt")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.room} ({self.check_in} / {self.check_out})"
+
+    class Meta:
+        verbose_name = "Bron"
+        verbose_name_plural = "Bronlar"

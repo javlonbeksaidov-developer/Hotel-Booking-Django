@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="hero">
+  <img class="hero-fallback" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=1920&amp;q=70" alt="">
+  <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=1920&amp;q=70" aria-hidden="true">
+    <source src="static/videos/hero-video.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <p class="eyebrow rise">Welcome to exceptional hospitality</p>
+    <h1 class="rise d2">Experience Luxury Beyond Expectations</h1>
+    <p class="lead rise d3">Quiet rooms, refined dining and service that anticipates what you need, in the heart of the city.</p>
+    <div class="btn-row rise d4"><a class="btn btn-gold" href="rooms.html">Explore Our Rooms</a><a class="btn btn-line" href="#about">Discover More</a></div>
+  </div>
+  <div class="container hero-widget rise d5"><form class="booking-widget glass" action="booking.html" method="get" id="searchForm" aria-label="Search availability">
+  <div class="field"><label for="checkin">Check-in</label><input type="date" id="checkin" name="checkin" required></div>
+  <div class="field"><label for="checkout">Check-out</label><input type="date" id="checkout" name="checkout" required></div>
+  <div class="field"><label for="adults">Adults</label><select id="adults" name="adults"><option value="1" >1</option><option value="2" selected>2</option><option value="3" >3</option><option value="4" >4</option><option value="5" >5</option><option value="6" >6</option><option value="7" >7</option></select></div>
+  <div class="field"><label for="children">Children</label><select id="children" name="children"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></div>
+  <div class="field"><label for="roomsCount">Rooms</label><select id="roomsCount" name="rooms"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+  <button class="btn btn-gold" type="submit">Search Availability</button>
+</form>
+</div>
+</section>
+
+<section class="section" id="about"><div class="container split">
+  <div class="reveal"><h2>A hotel built around the pleasure of staying</h2>
+    <p class="muted">Aurelia Grand opened with a simple idea: a hotel should feel calm the moment you walk in. Every room has natural stone, hand-finished wood and linen sourced from small mills, and our team knows guests by name.</p>
+    <a class="btn btn-line" href="about.html">Discover More</a></div>
+  <div class="reveal img-frame"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Hotel lobby interior" loading="lazy" width="900" height="650"></div>
+</div></section>
+
+<section class="section alt"><div class="container">
+  <div class="section-head reveal"><h2>Featured Rooms</h2><p class="muted">Four ways to stay, each with its own character.</p></div>
+  <div class="room-grid"><article class="room-card reveal" data-category="Deluxe" data-price="220" data-guests="2" data-available="1">
+  <a class="room-img" href="room-deluxe-room.html"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Deluxe Room" loading="lazy" width="600" height="420">
+    </a>
+  <div class="room-body">
+    <p class="cat">Deluxe</p>
+    <h3><a href="room-deluxe-room.html">Deluxe Room</a></h3>
+    <p class="muted">A calm room in warm neutrals with a king bed, marble bathroom and city views.</p>
+    <ul class="meta"><li>2 guests</li><li>38 m&sup2;</li><li>King bed</li></ul>
+    <div class="room-foot"><p class="price">$220 <small>/ night</small></p>
+      <div class="btn-row"><a class="btn btn-line" href="room-deluxe-room.html">View Details</a>
+      <a class="btn btn-gold" href="booking.html?room=deluxe-room">Book Now</a></div></div>
+  </div>
+</article>
+<article class="room-card reveal" data-category="Suite" data-price="390" data-guests="3" data-available="1">
+  <a class="room-img" href="room-executive-suite.html"><img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Executive Suite" loading="lazy" width="600" height="420">
+    </a>
+  <div class="room-body">
+    <p class="cat">Suite</p>
+    <h3><a href="room-executive-suite.html">Executive Suite</a></h3>
+    <p class="muted">A separate living area, work desk and lounge access for longer stays.</p>
+    <ul class="meta"><li>3 guests</li><li>62 m&sup2;</li><li>King bed + sofa bed</li></ul>
+    <div class="room-foot"><p class="price">$390 <small>/ night</small></p>
+      <div class="btn-row"><a class="btn btn-line" href="room-executive-suite.html">View Details</a>
+      <a class="btn btn-gold" href="booking.html?room=executive-suite">Book Now</a></div></div>
+  </div>
+</article>
+<article class="room-card reveal" data-category="Suite" data-price="980" data-guests="4" data-available="0">
+  <a class="room-img" href="room-presidential-suite.html"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Presidential Suite" loading="lazy" width="600" height="420">
+    <span class="tag">Sold out</span></a>
+  <div class="room-body">
+    <p class="cat">Suite</p>
+    <h3><a href="room-presidential-suite.html">Presidential Suite</a></h3>
+    <p class="muted">Our top floor residence with a private terrace, dining room and butler service.</p>
+    <ul class="meta"><li>4 guests</li><li>140 m&sup2;</li><li>Two king beds</li></ul>
+    <div class="room-foot"><p class="price">$980 <small>/ night</small></p>
+      <div class="btn-row"><a class="btn btn-line" href="room-presidential-suite.html">View Details</a>
+      </div></div>
+  </div>
+</article>
+<article class="room-card reveal" data-category="Family" data-price="310" data-guests="5" data-available="1">
+  <a class="room-img" href="room-luxury-family-room.html"><img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&amp;fit=crop&amp;w=1200&amp;q=70" alt="Luxury Family Room" loading="lazy" width="600" height="420">
+    </a>
+  <div class="room-body">
+    <p class="cat">Family</p>
+    <h3><a href="room-luxury-family-room.html">Luxury Family Room</a></h3>
+    <p class="muted">Two connected spaces with room for the whole family and a kids&#x27; amenity set.</p>
+    <ul class="meta"><li>5 guests</li><li>75 m&sup2;</li><li>King + two twin beds</li></ul>
+    <div class="room-foot"><p class="price">$310 <small>/ night</small></p>
+      <div class="btn-row"><a class="btn btn-line" href="room-luxury-family-room.html">View Details</a>
+      <a class="btn btn-gold" href="booking.html?room=luxury-family-room">Book Now</a></div></div>
+  </div>
+</article>
+</div>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-head reveal"><h2>Hotel Services</h2></div>
+  <div class="services-grid">
+
+  <div class="service reveal">
+    <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 004 0V3M7 11v10M17 3c-2 1-3 4-3 7h3v11"/></svg>
+    <h3>Restaurant &amp; Dining</h3><p class="muted">Seasonal tasting menus and a rooftop bar.</p>
+  </div>
+
+  <div class="service reveal">
+    <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5M2 21c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5M8 14V6a2 2 0 014 0M14 14V6a2 2 0 014 0M8 9h6"/></svg>
+    <h3>Swimming Pool</h3><p class="muted">Heated indoor pool and a quiet outdoor terrace.</p>
+  </div>
+
+  <div class="service reveal">
+    <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 3 4 6 0 10-4-4-3-7 0-10zM5 11c4 0 6 3 7 6-4 0-7-2-7-6zM19 11c-4 0-6 3-7 6 4 0 7-2 7-6z"/></svg>
+    <h3>Spa &amp; Wellness</h3><p class="muted">Massage, hammam and private treatment rooms.</p>
+  </div>
+
+  <div class="service reveal">
+    <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/></svg>
+    <h3>Fitness Center</h3><p class="muted">Open 24 hours with personal trainers on request.</p>
+  </div>
+
+  <div class="service reveal">
+    <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a15 15 0 0120 0M5 12.5a10 10 0 0114 0M8.5 16a5 5 0 017 0M12 19.5h.01"/></svg>
+    <h3>Free Wi-Fi</h3><p class="muted">Fast fibre internet in every room and public area.</p>
+  </div>
+
+  <div class="service reveal">
+    <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 16l9-3V6a1.5 1.5 0 013 0v7l8 3v2l-8-1.5V20l2 1.5V23l-3.5-1L8 23v-1.5L10 20v-3.5L2 18z"/></svg>
+    <h3>Airport Transfer</h3><p class="muted">Chauffeur pickup from the airport, any hour.</p>
+  </div>
+
+</div>
+
+</div></section>
+
+<section class="section alt"><div class="container">
+  <div class="section-head reveal"><h2>Gallery</h2></div>
+  <div class="gallery-grid"><button class="g-item reveal" data-full="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70" aria-label="Open image 1"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Hotel photo 1" loading="lazy"></button><button class="g-item reveal" data-full="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70" aria-label="Open image 2"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Hotel photo 2" loading="lazy"></button><button class="g-item reveal" data-full="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70" aria-label="Open image 3"><img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Hotel photo 3" loading="lazy"></button><button class="g-item reveal" data-full="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70" aria-label="Open image 4"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Hotel photo 4" loading="lazy"></button><button class="g-item reveal" data-full="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=900&amp;q=70" aria-label="Open image 5"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Hotel photo 5" loading="lazy"></button></div>
+  <p class="center"><a class="btn btn-line" href="gallery.html">View Full Gallery</a></p>
+</div></section>
+
+<section class="section"><div class="container narrow">
+  <div class="section-head reveal"><h2>Guest Reviews</h2></div>
+  <div class="slider" id="slider" aria-roledescription="carousel">
+    
+    <figure class="slide active">
+      <p class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+      <blockquote>Quiet, beautifully designed and the staff remembered every small request. The best stay of our year.</blockquote><figcaption>Sofia Marchetti</figcaption>
+    </figure>
+    <figure class="slide ">
+      <p class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+      <blockquote>The suite was spotless and the spa was exceptional. Check-in took under two minutes.</blockquote><figcaption>James Whitfield</figcaption>
+    </figure>
+    <figure class="slide ">
+      <p class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+      <blockquote>We booked the family room and the children loved the pool. Breakfast alone is worth the trip.</blockquote><figcaption>Aigul Nurmatova</figcaption>
+    </figure>
+    <div class="dots" role="tablist"><button class="dot active" aria-label="Review 1"></button><button class="dot " aria-label="Review 2"></button><button class="dot " aria-label="Review 3"></button></div>
+  </div>
+</div></section>
+
+<section class="section alt"><div class="container split">
+  <div class="reveal"><h2>Find us in the city centre</h2><p class="muted">1 Amir Temur Avenue, Tashkent, Uzbekistan. Ten minutes from the airport and a short walk from the main square.</p>
+    <a class="btn btn-line" href="https://www.openstreetmap.org/directions?to=41.3111,69.2797" target="_blank" rel="noopener">Get Directions</a></div>
+  <div class="reveal map-box"><iframe title="Hotel location map" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=69.25,41.29,69.31,41.33&amp;layer=mapnik"></iframe></div>
+</div></section>
+
+<section class="section newsletter"><div class="container narrow center reveal">
+  <h2>Stay in touch</h2><p class="muted">Seasonal offers and news, once a month.</p>
+  <form class="news-form" id="newsForm"><label class="visually-hidden" for="nemail">Email</label>
+    <input type="email" id="nemail" placeholder="Your email address" required><button class="btn btn-gold" type="submit">Subscribe</button></form>
+  <p class="form-msg" id="newsMsg" role="status"></p>
+</div></section>
+
+{% endblock content %}

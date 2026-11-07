@@ -1,0 +1,9 @@
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes pulse{50%{opacity:.35}}
+@keyframes toast{0%,90%{opacity:1}100%{opacity:0;visibility:hidden}}
+.rise{opacity:0;animation:rise 1.1s var(--ease) forwards}
+.d2{animation-delay:.2s}.d3{animation-delay:.4s}.d4{animation-delay:.6s}.d5{animation-delay:.85s}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.room-card.reveal.visible:hover{transform:translateY(-6px)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.reveal,.rise{opacity:1;transform:none}html{scroll-behavior:auto}}
