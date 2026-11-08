@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
 <section class="hero">
@@ -8,7 +9,7 @@
   <video class="hero-video" autoplay muted loop playsinline
     poster="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=1920&amp;q=70"
     aria-hidden="true">
-    <source src="static/videos/hero-video.mp4" type="video/mp4">
+    <source src="{% static 'videos/hero-video.mp4' %}" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
   <div class="container hero-content">
@@ -16,11 +17,11 @@
     <h1 class="rise d2">Experience Luxury Beyond Expectations</h1>
     <p class="lead rise d3">Quiet rooms, refined dining and service that anticipates what you need, in the heart of the
       city.</p>
-    <div class="btn-row rise d4"><a class="btn btn-gold" href="rooms.html">Explore Our Rooms</a><a class="btn btn-line"
-        href="#about">Discover More</a></div>
+    <div class="btn-row rise d4"><a class="btn btn-gold" href="{% url 'hotels:rooms' %}">Explore Our Rooms</a><a
+        class="btn btn-line" href="#about">Discover More</a></div>
   </div>
   <div class="container hero-widget rise d5">
-    <form class="booking-widget glass" action="booking.html" method="get" id="searchForm"
+    <form class="booking-widget glass" action="{% url 'bookings:booking' %}" method="get" id="searchForm"
       aria-label="Search availability">
       <div class="field"><label for="checkin">Check-in</label><input type="date" id="checkin" name="checkin" required>
       </div>
@@ -30,19 +31,12 @@
           <option value="1">1</option>
           <option value="2" selected>2</option>
           <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
         </select></div>
       <div class="field"><label for="children">Children</label><select id="children" name="children">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
         </select></div>
       <div class="field"><label for="roomsCount">Rooms</label><select id="roomsCount" name="rooms">
           <option value="1">1</option>
@@ -55,6 +49,16 @@
   </div>
 </section>
 
+{% if messages %}
+<div class="messages">
+  {% for message in messages %}
+  <div class="toast {{ message.tags }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
 <section class="section" id="about">
   <div class="container split">
     <div class="reveal">
@@ -62,7 +66,7 @@
       <p class="muted">Aurelia Grand opened with a simple idea: a hotel should feel calm the moment you walk in. Every
         room has natural stone, hand-finished wood and linen sourced from small mills, and our team knows guests by
         name.</p>
-      <a class="btn btn-line" href="about.html">Discover More</a>
+      <a class="btn btn-line" href="{% url 'hotels:about' %}">Discover More</a>
     </div>
     <div class="reveal img-frame"><img
         src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
@@ -93,9 +97,6 @@
           </ul>
           <div class="room-foot">
             <p class="price">$220 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-deluxe-room.html">View Details</a>
-              <a class="btn btn-gold" href="booking.html?room=deluxe-room">Book Now</a>
-            </div>
           </div>
         </div>
       </article>
@@ -115,9 +116,6 @@
           </ul>
           <div class="room-foot">
             <p class="price">$390 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-executive-suite.html">View Details</a>
-              <a class="btn btn-gold" href="booking.html?room=executive-suite">Book Now</a>
-            </div>
           </div>
         </div>
       </article>
@@ -137,8 +135,6 @@
           </ul>
           <div class="room-foot">
             <p class="price">$980 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-presidential-suite.html">View Details</a>
-            </div>
           </div>
         </div>
       </article>
@@ -158,9 +154,6 @@
           </ul>
           <div class="room-foot">
             <p class="price">$310 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-luxury-family-room.html">View Details</a>
-              <a class="btn btn-gold" href="booking.html?room=luxury-family-room">Book Now</a>
-            </div>
           </div>
         </div>
       </article>
@@ -240,28 +233,37 @@
     <div class="section-head reveal">
       <h2>Gallery</h2>
     </div>
-    <div class="gallery-grid"><button class="g-item reveal"
+    <div class="gallery-grid">
+      <button class="g-item reveal"
         data-full="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 1"><img
-          src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 1" loading="lazy"></button><button class="g-item reveal"
+        aria-label="Open image 1">
+        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
+          alt="Hotel photo 1" loading="lazy">
+      </button>
+      <button class="g-item reveal"
         data-full="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 2"><img
+        aria-label="Open image 2">
+        <img
           src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 2" loading="lazy"></button><button class="g-item reveal"
+          alt="Hotel photo 2" loading="lazy">
+      </button>
+      <button class="g-item reveal"
         data-full="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 3"><img
+        aria-label="Open image 3">
+        <img
           src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 3" loading="lazy"></button><button class="g-item reveal"
+          alt="Hotel photo 3" loading="lazy">
+      </button>
+      <button class="g-item reveal"
         data-full="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 4"><img
+        aria-label="Open image 4">
+        <img
           src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 4" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 5"><img
-          src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 5" loading="lazy"></button></div>
-    <p class="center"><a class="btn btn-line" href="gallery.html">View Full Gallery</a></p>
+          alt="Hotel photo 4" loading="lazy">
+      </button>
+    </div>
+    <br><br>
+    <p class="center"><a class="btn btn-line" href="{% url 'hotels:gallery' %}">View Full Gallery</a></p>
   </div>
 </section>
 
@@ -299,7 +301,8 @@
   <div class="container split">
     <div class="reveal">
       <h2>Find us in the city centre</h2>
-      <p class="muted">1 Amir Temur Avenue, Tashkent, Uzbekistan. Ten minutes from the airport and a short walk from the
+      <p class="muted">{{hotel.address}}, {{hotel.city}}, {{hotel.country}}. Ten minutes from the airport and a short
+        walk from the
         main square.</p>
       <a class="btn btn-line" href="https://www.openstreetmap.org/directions?to=41.3111,69.2797" target="_blank"
         rel="noopener">Get Directions</a>
@@ -314,10 +317,16 @@
   <div class="container narrow center reveal">
     <h2>Stay in touch</h2>
     <p class="muted">Seasonal offers and news, once a month.</p>
-    <form class="news-form" id="newsForm"><label class="visually-hidden" for="nemail">Email</label>
-      <input type="email" id="nemail" placeholder="Your email address" required><button class="btn btn-gold"
-        type="submit">Subscribe</button>
+
+    <form class="news-form" method="post" action="{% url 'hotels:home' %}">
+      {% csrf_token %}
+      <label class="visually-hidden" for="nemail">Email</label>
+      <input type="email" id="nemail" name="email" placeholder="Your email address" required>
+      <button class="btn btn-gold" type="submit">
+        Subscribe
+      </button>
     </form>
+
     <p class="form-msg" id="newsMsg" role="status"></p>
   </div>
 </section>

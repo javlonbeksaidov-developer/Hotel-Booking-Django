@@ -5,8 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Luxury Hotel in Samarkand | Aurelia Grand Hotel</title>
-    <meta name="description" content="Five-star luxury hotel in Tashkent. Book rooms, suites, dining and spa.">
+    <title>{{hotel.name}}</title>
+    <meta name="description" content="Five-star luxury hotel in Samarkand. Book rooms, suites, dining and spa.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -31,19 +31,67 @@
     transform: scale(1.08);
     border-color: #a78bfa;
 }
+
+.messages-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.message-success {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.message-error {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.message-warning {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.message-info {
+    background: #cff4fc;
+    color: #055160;
+}
+
+.message button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 22px;
+    cursor: pointer;
+}
     </style>
 </head>
 
 <body class="page-home">
-    <div class="loader" id="loader" aria-hidden="true"><span>Aurelia</span></div>
+    <div class="loader" id="loader" aria-hidden="true"><span>Saidov Javlon</span></div>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header " id="header">
         <div class="container nav">
-            <a class="brand" href="index.html" aria-label="Aurelia Grand Hotel home">
-                <img src="static/images/logo/logo.svg" alt="" width="34" height="34"
+            <a class="brand" href="{% url 'hotels:home' %}" aria-label="{{hotel.name}}">
+                <img src="{{ hotel.image.url }}"
+                    alt="Hotel"
+                    width="34"
+                    height="34"
+                    style="border-radius: 50%; object-fit: cover;"
                     onerror="this.style.display='none'">
-                <span>Aurelia Grand Hotel</span>
+                <span>{{hotel.name}}</span>
             </a>
 
             <nav id="menu" class="menu" aria-label="Main navigation">
@@ -125,13 +173,13 @@
                 <div class="menu-actions mobile-only">
                     <a class="btn btn-gold {% if request.resolver_match.url_name == 'booking' %}active{% endif %}" 
                     href="{% url 'bookings:booking' %}">
-                    Book Now
+                    Buyurtma berish
                     </a>
                 </div>
             </nav>
 
             <div class="nav-right">
-                <a class="btn btn-gold desktop-only" href="{% url 'bookings:booking' %}">Book Now</a>
+                <a class="btn btn-gold desktop-only" href="{% url 'bookings:booking' %}">Buyurtma berish</a>
                 <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"
                     aria-controls="menu"><span></span><span></span><span></span></button>
             </div>
@@ -147,9 +195,8 @@
     <footer class="footer">
         <div class="container footer-grid">
             <div>
-                <a class="brand" href="{% url 'hotels:home' %}"><span>Aurelia Grand Hotel</span></a>
-                <p class="muted">A five-star city retreat where quiet design, attentive service and fine dining come
-                    together.</p>
+                <a class="brand" href="{% url 'hotels:home' %}"><span>{{hotel.name}}</span></a>
+                <p class="muted">{{hotel.description}}</p>
             </div>
             <div>
                 <h4>Explore</h4>
@@ -164,21 +211,21 @@
             <div>
                 <h4>Contact</h4>
                 <ul class="plain muted">
-                    <li>1 Amir Temur Avenue, Tashkent, Uzbekistan</li>
-                    <li><a href="tel:+998 71 200 00 00">+998 71 200 00 00</a></li>
-                    <li><a href="mailto:stay@aureliagrand.example">stay@aureliagrand.example</a></li>
+                    <li>{{hotel.address}}, {{hotel.city}}, {{hotel.country}}</li>
+                    <li><a href="tel:+{{hotel.phone_number}}">{{hotel.phone_number}}</a></li>
+                    <li><a href="mailto:{{hotel.email}}">{{hotel.email}}</a></li>
                 </ul>
             </div>
             <div>
                 <h4>Follow</h4>
                 <ul class="plain">
-                    <li><a href="https://instagram.com" rel="noopener" target="_blank">Instagram</a></li>
-                    <li><a href="https://facebook.com" rel="noopener" target="_blank">Facebook</a></li>
-                    <li><a href="https://t.me" rel="noopener" target="_blank">Telegram</a></li>
+                    <li><a href="#" rel="noopener" target="_blank">Instagram</a></li>
+                    <li><a href="#" rel="noopener" target="_blank">Facebook</a></li>
+                    <li><a href="#" rel="noopener" target="_blank">Telegram</a></li>
                 </ul>
             </div>
         </div>
-        <div class="container copy">&copy; 2026 Aurelia Grand Hotel. All rights reserved.</div>
+        <div class="container copy">&copy; {{ hotel.created_at|date:"Y" }} {{hotel.name}}</div>
     </footer>
 
     <button class="to-top" id="toTop" aria-label="Back to top">&uarr;</button>

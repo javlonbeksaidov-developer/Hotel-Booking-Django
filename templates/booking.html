@@ -3,13 +3,42 @@
 
 <section class="section">
   <div class="container narrow">
-    <form class="form" data-demo id="bookingForm">
+
+    {% if messages %}
+    <div class="messages-container">
+      {% for message in messages %}
+      <div class="message message-{{ message.tags }}">
+        <span>{{ message }}</span>
+
+        <button type="button" onclick="this.parentElement.remove()">
+          &times;
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form class="form" id="bookingForm" method="POST" action="{% url 'bookings:booking' %}">
       {% csrf_token %}
-      <div class="field"><label for="broom">Room</label><select id="broom" name="room" required>
-          <option value="deluxe-room" data-price="220">Deluxe Room - $220/night</option>
-          <option value="executive-suite" data-price="390">Executive Suite - $390/night</option>
-          <option value="luxury-family-room" data-price="310">Luxury Family Room - $310/night</option>
-        </select></div>
+
+    <div class="field">
+        <label for="broom">Room</label>
+
+        <select id="broom" name="room" required>
+            <option value="">Select room</option>
+
+            {% for room in rooms %}
+                <option
+                    value="{{ room.id }}"
+                    data-price="{{ room.price_per_night }}"
+                    {% if room.id|stringformat:"s" == selected_room_id %}selected{% endif %}
+                >
+                    {{ room.name }} - ${{ room.price_per_night }}/night
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
       <div class="grid-2">
         <div class="field"><label for="checkin">Check-in</label><input type="date" id="checkin" name="checkin" value=""
             required></div>
@@ -19,19 +48,12 @@
             <option>1</option>
             <option>2</option>
             <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
           </select></div>
         <div class="field"><label for="children">Children</label><select id="children" name="children">
             <option>0</option>
             <option>1</option>
             <option>2</option>
             <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
           </select></div>
         <div class="field"><label for="gname">Full name</label><input id="gname" name="name" required
             autocomplete="name"></div>

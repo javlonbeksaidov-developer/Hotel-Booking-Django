@@ -1,43 +1,96 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .g-item {
+    border: none;
+    padding: 0;
+    background: none;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .g-item img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    transition: .3s;
+  }
+
+  .g-item:hover img {
+    transform: scale(1.04);
+  }
+
+  .gallery-videos {
+    margin-top: 50px;
+  }
+
+  .video-card video {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media(max-width: 700px) {
+
+    .gallery-grid,
+    .video-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
 <section class="section">
   <div class="container">
+
+    <h2>Photo Gallery</h2>
+
     <div class="gallery-grid">
-      <button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 1"><img
-          src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 1" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 2"><img
-          src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 2" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 3"><img
-          src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 3" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 4"><img
-          src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 4" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 5"><img
-          src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 5" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 6"><img
-          src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 6" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 7"><img
-          src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 7" loading="lazy"></button><button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="Open image 8"><img
-          src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Hotel photo 8" loading="lazy"></button>
+      {% for item in images %}
+      <button type="button" class="g-item reveal" data-full="{{ item.image.url }}"
+        aria-label="Open {{ item.room.name }} image">
+        <img src="{{ item.image.url }}" alt="{{ item.room.name }}" loading="lazy">
+      </button>
+      {% empty %}
+      <p>Hozircha rasmlar mavjud emas.</p>
+      {% endfor %}
     </div>
+
+    <div class="gallery-videos">
+      <h2>Video Gallery</h2>
+
+      <div class="video-grid">
+        {% for item in videos %}
+        <div class="video-card reveal">
+          <video controls preload="metadata">
+            <source src="{{ item.video.url }}">
+            Brauzeringiz videoni qo'llab-quvvatlamaydi.
+          </video>
+
+          {% if item.title %}
+          <h3>{{ item.title }}</h3>
+          {% endif %}
+        </div>
+        {% empty %}
+        <p>Hozircha videolar mavjud emas.</p>
+        {% endfor %}
+      </div>
+    </div>
+
   </div>
 </section>
 

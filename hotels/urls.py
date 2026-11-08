@@ -6,6 +6,7 @@ from .views import (
     gallery_page,
     home_page,
     location_page,
+    room_detail,
     rooms_page,
     services_page,
 )
@@ -16,6 +17,7 @@ urlpatterns = [
     path("", home_page, name="home"),
     path("about/", about_page, name="about"),
     path("rooms/", rooms_page, name="rooms"),
+    path("room/<int:pk>/", room_detail, name="room_detail"),
     path("services/", services_page, name="services"),
     path("gallery/", gallery_page, name="gallery"),
     path("location/", location_page, name="location"),

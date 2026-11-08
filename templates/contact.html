@@ -5,16 +5,18 @@
   <div class="container split">
     <div>
       <ul class="spec">
-        <li><span>Address</span>1 Amir Temur Avenue, Tashkent, Uzbekistan</li>
-        <li><span>Phone</span><a href="tel:+998 71 200 00 00">+998 71 200 00 00</a></li>
-        <li><span>Email</span><a href="mailto:stay@aureliagrand.example">stay@aureliagrand.example</a></li>
+        <li><span>Address</span>{{hotel.address}}, {{hotel.city}}, {{hotel.country}}</li>
+        <li><span>Phone</span><a href="tel:+{{hotel.phone_number}}">{{hotel.phone_number}}</a></li>
+        <li><span>Email</span><a href="mailto:{{hotel.email}}">{{hotel.email}}</a></li>
         <li><span>Hours</span>Reception open 24 hours</li>
       </ul>
       <div class="map-box small"><iframe title="Hotel map" loading="lazy"
           src="https://www.openstreetmap.org/export/embed.html?bbox=69.25,41.29,69.31,41.33&amp;layer=mapnik"></iframe>
       </div>
     </div>
-    <form class="form" data-demo>
+
+    <form class="form" method="post", action="{% url 'hotels:contact' %}">
+      {% csrf_token %}
       <div class="field"><label for="cname">Full name</label><input id="cname" name="name" required autocomplete="name">
       </div>
       <div class="field"><label for="cemail">Email</label><input id="cemail" type="email" name="email" required
@@ -24,6 +26,7 @@
           required></textarea></div>
       <button class="btn btn-gold" type="submit">Send Message</button>
     </form>
+
   </div>
 </section>
 

@@ -1,123 +1,306 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<style>
+  .room-img {
+    display: block;
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .room-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .room-card {
+    transition: .3s ease;
+  }
+
+  .room-card[hidden] {
+    display: none !important;
+  }
+
+  .tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: end;
+    margin-bottom: 35px;
+  }
+
+  .filters .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filters select,
+  .filters input[type="range"] {
+    width: 100%;
+  }
+
+  .filters select {
+    padding: 11px;
+    border-radius: 6px;
+  }
+
+  .filters .check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media(max-width: 750px) {
+    .filters {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media(max-width: 450px) {
+    .filters {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
 <section class="section">
   <div class="container">
+
+    <!-- FILTERS -->
     <form class="filters" id="filters" aria-label="Filter rooms">
-      <div class="field"><label for="fCat">Category</label><select id="fCat">
-          <option value="all">All</option>
-          <option>Deluxe</option>
-          <option>Suite</option>
-          <option>Family</option>
-        </select></div>
-      <div class="field"><label for="fPrice">Max price: $<output id="fPriceOut">1000</output></label><input type="range"
-          id="fPrice" min="100" max="1000" step="10" value="1000"></div>
-      <div class="field"><label for="fGuests">Guests</label><select id="fGuests">
+
+      <div class="field">
+        <label for="fCat">Category</label>
+        <select id="fCat">
+          <option value="all">All Categories</option>
+          {% for room_type in room_types %}
+          <option value="{{ room_type|lower }}">{{ room_type }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="fPrice">
+          Max price: $<output id="fPriceOut">1000</output>
+        </label>
+        <input type="range" id="fPrice" min="0" max="1000" step="10" value="1000">
+      </div>
+
+      <div class="field">
+        <label for="fGuests">Guests</label>
+        <select id="fGuests">
           <option value="1">Any</option>
           <option value="2">2+</option>
           <option value="3">3+</option>
           <option value="4">4+</option>
           <option value="5">5+</option>
-        </select></div>
-      <div class="field"><label for="fSort">Sort by price</label><select id="fSort">
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="fSort">Sort by price</label>
+        <select id="fSort">
           <option value="none">Default</option>
           <option value="asc">Low to high</option>
           <option value="desc">High to low</option>
-        </select></div>
-      <label class="check"><input type="checkbox" id="fAvail"> Available only</label>
+        </select>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" id="fAvail">
+        Available only
+      </label>
+
     </form>
+
+
+    <!-- ROOM GRID -->
     <div class="room-grid" id="roomGrid">
-      <article class="room-card reveal" data-category="Deluxe" data-price="220" data-guests="2" data-available="1">
-        <a class="room-img" href="room-deluxe-room.html"><img
-            src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Deluxe Room" loading="lazy" width="600" height="420">
+
+      {% for room in rooms %}
+
+      <article class="room-card reveal" data-category="{{ room.room_type|lower }}"
+        data-price="{{ room.price_per_night }}" data-guests="{{ room.capacity }}"
+        data-available="{{ room.is_available|yesno:'1,0' }}">
+
+        <!-- ROOM IMAGE -->
+        <a class="room-img" href="{% url 'hotels:room_detail' room.pk %}">
+
+          {% with first_image=room.images.first %}
+          {% if first_image %}
+          <img src="{{ first_image.image.url }}" alt="{{ room.name }}" loading="lazy" width="600" height="420">
+          {% else %}
+          <img src="https://placehold.co/600x420?text=No+Image" alt="No image available">
+          {% endif %}
+          {% endwith %}
+
+          {% if not room.is_available %}
+          <span class="tag">Sold out</span>
+          {% endif %}
+
         </a>
+
+
+        <!-- ROOM INFORMATION -->
         <div class="room-body">
-          <p class="cat">Deluxe</p>
-          <h3><a href="room-deluxe-room.html">Deluxe Room</a></h3>
-          <p class="muted">A calm room in warm neutrals with a king bed, marble bathroom and city views.</p>
+
+          {% if room.is_booked_today %}
+              <span class="tag tag-booked">Bron qilingan</span>
+          {% else %}
+              <span class="tag tag-available">Bo‘sh</span>
+          {% endif %}
+
+          <p class="cat">{{ room.room_type }}</p>
+
+          <h3>
+            <a href="{% url 'hotels:room_detail' room.pk %}">
+              {{ room.name }}
+            </a>
+          </h3>
+
+          <p class="muted">
+            {{ room.description|truncatewords:20 }}
+          </p>
+
           <ul class="meta">
-            <li>2 guests</li>
-            <li>38 m&sup2;</li>
-            <li>King bed</li>
+            <li>{{ room.capacity }} guests</li>
+            <li>{{ room.size }} m&sup2;</li>
+            <li>{{ room.bed_type }}</li>
+            <li>{{ room.floor }}-qavatda</li>
           </ul>
+
           <div class="room-foot">
-            <p class="price">$220 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-deluxe-room.html">View Details</a>
-              <a class="btn btn-gold" href="booking.html?room=deluxe-room">Book Now</a>
+
+            <p class="price">
+              ${{ room.price_per_night }}
+              <small>/ night</small>
+            </p>
+
+            <div class="btn-row">
+
+              <a class="btn btn-line" href="{% url 'hotels:room_detail' room.pk %}">
+                View Details
+              </a>
+
+              {% if room.is_available %}
+              <a class="btn btn-gold" href="{% url 'bookings:booking' %}?room={{ room.pk }}">
+                Book Now
+              </a>
+              {% else %}
+              <span class="btn btn-line">
+                Hozircha yopiq
+              </span>
+              {% endif %}
+
             </div>
+
           </div>
+
         </div>
+
       </article>
-      <article class="room-card reveal" data-category="Suite" data-price="390" data-guests="3" data-available="1">
-        <a class="room-img" href="room-executive-suite.html"><img
-            src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Executive Suite" loading="lazy" width="600" height="420">
-        </a>
-        <div class="room-body">
-          <p class="cat">Suite</p>
-          <h3><a href="room-executive-suite.html">Executive Suite</a></h3>
-          <p class="muted">A separate living area, work desk and lounge access for longer stays.</p>
-          <ul class="meta">
-            <li>3 guests</li>
-            <li>62 m&sup2;</li>
-            <li>King bed + sofa bed</li>
-          </ul>
-          <div class="room-foot">
-            <p class="price">$390 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-executive-suite.html">View Details</a>
-              <a class="btn btn-gold" href="booking.html?room=executive-suite">Book Now</a>
-            </div>
-          </div>
-        </div>
-      </article>
-      <article class="room-card reveal" data-category="Suite" data-price="980" data-guests="4" data-available="0">
-        <a class="room-img" href="room-presidential-suite.html"><img
-            src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Presidential Suite" loading="lazy" width="600" height="420">
-          <span class="tag">Sold out</span></a>
-        <div class="room-body">
-          <p class="cat">Suite</p>
-          <h3><a href="room-presidential-suite.html">Presidential Suite</a></h3>
-          <p class="muted">Our top floor residence with a private terrace, dining room and butler service.</p>
-          <ul class="meta">
-            <li>4 guests</li>
-            <li>140 m&sup2;</li>
-            <li>Two king beds</li>
-          </ul>
-          <div class="room-foot">
-            <p class="price">$980 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-presidential-suite.html">View Details</a>
-            </div>
-          </div>
-        </div>
-      </article>
-      <article class="room-card reveal" data-category="Family" data-price="310" data-guests="5" data-available="1">
-        <a class="room-img" href="room-luxury-family-room.html"><img
-            src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Luxury Family Room" loading="lazy" width="600" height="420">
-        </a>
-        <div class="room-body">
-          <p class="cat">Family</p>
-          <h3><a href="room-luxury-family-room.html">Luxury Family Room</a></h3>
-          <p class="muted">Two connected spaces with room for the whole family and a kids&#x27; amenity set.</p>
-          <ul class="meta">
-            <li>5 guests</li>
-            <li>75 m&sup2;</li>
-            <li>King + two twin beds</li>
-          </ul>
-          <div class="room-foot">
-            <p class="price">$310 <small>/ night</small></p>
-            <div class="btn-row"><a class="btn btn-line" href="room-luxury-family-room.html">View Details</a>
-              <a class="btn btn-gold" href="booking.html?room=luxury-family-room">Book Now</a>
-            </div>
-          </div>
-        </div>
-      </article>
+
+      {% empty %}
+
+      <p class="center muted">No rooms available.</p>
+
+      {% endfor %}
+
     </div>
-    <p class="center muted" id="noRooms" hidden>No rooms match these filters. Try widening your price or guest range.
+
+    <p class="center muted" id="noRooms" hidden>
+      No rooms match these filters. Try widening your price or guest range.
     </p>
+
   </div>
 </section>
+
+
+<!-- FILTER JAVASCRIPT -->
+<script>
+  const filters = document.getElementById("filters");
+  const roomGrid = document.getElementById("roomGrid");
+
+  const category = document.getElementById("fCat");
+  const price = document.getElementById("fPrice");
+  const priceOutput = document.getElementById("fPriceOut");
+  const guests = document.getElementById("fGuests");
+  const sort = document.getElementById("fSort");
+  const available = document.getElementById("fAvail");
+  const noRooms = document.getElementById("noRooms");
+
+  function filterRooms() {
+    const cards = [...roomGrid.querySelectorAll(".room-card")];
+
+    const selectedCategory = category.value;
+    const maxPrice = Number(price.value);
+    const minGuests = Number(guests.value);
+
+    priceOutput.value = maxPrice;
+
+    cards.forEach(card => {
+      const cardCategory = card.dataset.category;
+      const cardPrice = Number(card.dataset.price);
+      const cardGuests = Number(card.dataset.guests);
+      const cardAvailable = card.dataset.available === "1";
+
+      const categoryMatch =
+        selectedCategory === "all" ||
+        cardCategory === selectedCategory;
+
+      const priceMatch = cardPrice <= maxPrice;
+      const guestsMatch = cardGuests >= minGuests;
+      const availabilityMatch = !available.checked || cardAvailable;
+
+      card.hidden = !(
+        categoryMatch &&
+        priceMatch &&
+        guestsMatch &&
+        availabilityMatch
+      );
+    });
+
+    noRooms.hidden = cards.some(card => !card.hidden);
+  }
+
+  function sortRooms() {
+    const cards = [...roomGrid.querySelectorAll(".room-card")];
+
+    if (sort.value === "asc") {
+      cards.sort((a, b) =>
+        Number(a.dataset.price) - Number(b.dataset.price)
+      );
+    } else if (sort.value === "desc") {
+      cards.sort((a, b) =>
+        Number(b.dataset.price) - Number(a.dataset.price)
+      );
+    }
+
+    cards.forEach(card => roomGrid.appendChild(card));
+
+    filterRooms();
+  }
+
+  category.addEventListener("change", filterRooms);
+  price.addEventListener("input", filterRooms);
+  guests.addEventListener("change", filterRooms);
+  available.addEventListener("change", filterRooms);
+  sort.addEventListener("change", sortRooms);
+
+  filters.addEventListener("submit", function (e) {
+    e.preventDefault();
+  });
+
+  filterRooms();
+</script>
 
 {% endblock content %}

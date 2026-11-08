@@ -1,67 +1,125 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.utils.dateparse import parse_date
 
 from hotels.models import Room
 
-from .email import send_html_email
-from .forms import BookingForm
 from .models import Booking
-from .services import BookingService
 
 
+@login_required
 def booking_page(request):
-    if request.method == "POST":
-        room = request.POST.get("room")
-        checkin = request.POST.get("checkin")
-        checkout = request.POST.get("checkout")
+    rooms = Room.objects.filter(is_available=True)
 
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-
-        new_booking = Booking.objects.create(
-            user=request.user, room=room, check_in=checkin, check_out=checkout
-        )
-        new_booking.save()
-
-        data = {"email": email, 
-                "title": "Booking",
-                "full_name": name,
-                "booking_id": new_booking.id,
-                "message":"Your booking has been successfully confirmed."}
-        send_html_email(data)
-
-        return redirect("hotels:home")
-
-    return render(request, "booking.html")
-
-
-def create_booking(request, room_id):
-    """
-    Foydalanuvchining xonani bron qilish bo'yicha HTTP so'rovlarini (*GET/POST*)
-    qabul qiluvchi va qayta ishlovchi ko'rinish (View) interfeysi.
-    """
-    room = get_object_or_404(Room, pk=room_id)
+    # Detail sahifasidan kelgan xona ID
+    selected_room_id = request.GET.get("room", "")
 
     if request.method == "POST":
-        form = BookingForm(request.POST)
+        room_id = request.POST.get("room")
+        selected_room_id = room_id
 
-        if form.is_valid():
-            BookingService.create_room_booking(
-                user=request.user,
-                room_id=room_id,
-                check_in=form.cleaned_data["check_in"],
-                check_out=form.cleaned_data["check_out"],
+        check_in = parse_date(request.POST.get("checkin", ""))
+        check_out = parse_date(request.POST.get("checkout", ""))
+
+        try:
+            adults = int(request.POST.get("adults", 1))
+            children = int(request.POST.get("children", 0))
+        except (ValueError, TypeError):
+            messages.error(request, "Mehmonlar sonini to'g'ri kiriting.")
+            return render(
+                request,
+                "booking.html",
+                {
+                    "rooms": rooms,
+                    "selected_room_id": selected_room_id,
+                },
             )
 
-            return redirect("hotels:rooms")
+        guest_name = request.POST.get("name", "").strip()
+        guest_email = request.POST.get("email", "").strip()
 
-    else:
-        form = BookingForm()
+        # Xonani tekshirish
+        try:
+            room = Room.objects.get(id=room_id, is_available=True)
+        except (Room.DoesNotExist, ValueError, TypeError):
+            messages.error(request, "Tanlangan xona mavjud emas.")
+            return render(
+                request,
+                "booking.html",
+                {
+                    "rooms": rooms,
+                    "selected_room_id": selected_room_id,
+                },
+            )
 
-    return render(
-        request,
-        "booking.html",
-        {
-            "room": room,
-            "form": form,
-        },
-    )
+        # Sanalarni tekshirish
+        if not check_in or not check_out:
+            messages.error(request, "Sanalarni to'g'ri kiriting.")
+
+        elif check_in < timezone.localdate():
+            messages.error(
+                request, "Check-in sanasi bugundan oldin bo'lishi mumkin emas."
+            )
+
+        elif check_out <= check_in:
+            messages.error(
+                request, "Check-out sanasi Check-in sanasidan keyin bo'lishi kerak."
+            )
+
+        # Mehmonlar sonini tekshirish
+        elif adults < 1 or children < 0:
+            messages.error(request, "Mehmonlar soni noto'g'ri.")
+
+        elif adults + children > room.capacity:
+            messages.error(request, "Xona mehmonlar soniga mos emas.")
+
+        elif not guest_name or not guest_email:
+            messages.error(request, "Ism va email manzilini kiriting.")
+
+        else:
+            # Bandlikni tekshirish
+            already_booked = Booking.objects.filter(
+                room=room,
+                check_in__lt=check_out,
+                check_out__gt=check_in,
+                status__in=[
+                    Booking.BookingStatus.CONFIRMED,
+                    Booking.BookingStatus.CHECKED_IN,
+                ],
+            ).exists()
+
+            if already_booked:
+                messages.error(request, "Ushbu xona tanlangan sanalarda bron qilingan.")
+
+            else:
+                nights = (check_out - check_in).days
+                total_price = room.price_per_night * nights
+
+                Booking.objects.create(
+                    user=request.user,
+                    room=room,
+                    check_in=check_in,
+                    check_out=check_out,
+                    adults=adults,
+                    children=children,
+                    guest_name=guest_name,
+                    guest_email=guest_email,
+                    total_price=total_price,
+                    status=Booking.BookingStatus.PENDING,
+                )
+
+                messages.success(
+                    request,
+                    "Bron so'rovingiz muvaffaqiyatli yuborildi. Tasdiqlanishini kuting.",
+                )
+
+                return redirect("bookings:booking")
+
+    context = {
+        "rooms": rooms,
+        "selected_room_id": selected_room_id,
+    }
+
+    return render(request, "booking.html", context)
