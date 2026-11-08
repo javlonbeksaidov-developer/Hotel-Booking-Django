@@ -80,9 +80,6 @@ class Room(models.Model):
         verbose_name_plural = "Xonalar"
 
 
-from django.db import models
-
-
 class RoomImage(models.Model):
     room = models.ForeignKey(
         Room,
@@ -144,6 +141,7 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.email} - {self.subject}."
+
 
 class Subscribe(models.Model):
     email = models.EmailField()
