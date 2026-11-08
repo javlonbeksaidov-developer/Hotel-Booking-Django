@@ -1,23 +1,462 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bron holati haqida xabarnoma</title>
 </head>
 
-<body>
-    <h2>{{ title }}</h2>
+<body style="
+    margin:0;
+    padding:40px 15px;
+    background-color:#f1eee8;
+    font-family:Georgia, 'Times New Roman', serif;
+    color:#25231f;
+">
 
-    <p>Hello, {{ full_name }}!</p>
+    <div style="
+        max-width:620px;
+        margin:0 auto;
+        background:#ffffff;
+        overflow:hidden;
+        border:1px solid #e8e0d2;
+    ">
 
-    <p>{{ message }}</p>
+        <!-- HEADER -->
+        <div style="
+            background:#171714;
+            padding:45px 30px;
+            text-align:center;
+        ">
 
-    <p>
-        Your booking ID: <strong>{{ booking_id }}</strong>
-    </p>
+            <p style="
+                margin:0 0 12px;
+                color:#c5a46d;
+                font-family:Arial,sans-serif;
+                font-size:11px;
+                letter-spacing:5px;
+                text-transform:uppercase;
+            ">
+                Hashamatli mehmonxona xizmati
+            </p>
 
-    <p>Thank you for choosing our hotel!</p>
+            <h1 style="
+                margin:0;
+                color:#ffffff;
+                font-size:36px;
+                font-weight:normal;
+                letter-spacing:2px;
+            ">
+                HOTEL <span style="color:#c5a46d;">BOOKING</span>
+            </h1>
+
+            <div style="
+                width:55px;
+                height:1px;
+                background:#c5a46d;
+                margin:22px auto;
+            "></div>
+
+            <p style="
+                margin:0;
+                color:#bdb8ad;
+                font-family:Arial,sans-serif;
+                font-size:12px;
+                letter-spacing:2px;
+                text-transform:uppercase;
+            ">
+                Bron haqida xabarnoma
+            </p>
+
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div style="padding:40px 35px;">
+
+            <p style="
+                margin:0 0 12px;
+                color:#a68a5b;
+                font-family:Arial,sans-serif;
+                font-size:11px;
+                letter-spacing:2px;
+                text-transform:uppercase;
+            ">
+                Hurmatli mehmon
+            </p>
+
+            <h2 style="
+                margin:0 0 18px;
+                color:#22211e;
+                font-size:29px;
+                font-weight:normal;
+            ">
+                Assalomu alaykum, {{ booking.guest_name }}!
+            </h2>
+
+            <p style="
+                margin:0;
+                color:#77736c;
+                font-family:Arial,sans-serif;
+                font-size:14px;
+                line-height:1.8;
+            ">
+                Sizga mehmonxonamizdagi broningiz holati yangilangani
+                haqida xabar bermoqchimiz. Quyida broningizga oid
+                batafsil ma'lumotlar bilan tanishishingiz mumkin.
+            </p>
+
+            <!-- BOOKING ID -->
+            <div style="
+                margin-top:30px;
+                padding:18px 20px;
+                background:#f8f6f1;
+                border-left:3px solid #b99a65;
+            ">
+
+                <p style="
+                    margin:0 0 6px;
+                    color:#999084;
+                    font-family:Arial,sans-serif;
+                    font-size:10px;
+                    letter-spacing:2px;
+                    text-transform:uppercase;
+                ">
+                    Bron raqami
+                </p>
+
+                <p style="
+                    margin:0;
+                    color:#292720;
+                    font-family:Arial,sans-serif;
+                    font-size:20px;
+                    font-weight:bold;
+                ">
+                    #{{ booking.id }}
+                </p>
+
+            </div>
+
+            <!-- BOOKING DETAILS -->
+            <div style="margin-top:35px;">
+
+                <h3 style="
+                    margin:0 0 20px;
+                    padding-bottom:13px;
+                    border-bottom:1px solid #e8e3d9;
+                    color:#25231f;
+                    font-size:19px;
+                    font-weight:normal;
+                ">
+                    Bron tafsilotlari
+                </h3>
+
+                <table width="100%" cellpadding="0" cellspacing="0"
+                    style="border-collapse:collapse; font-family:Arial,sans-serif;">
+
+                    <tr>
+                        <td style="padding:13px 0; color:#888; font-size:13px;">
+                            Xona
+                        </td>
+                        <td align="right" style="padding:13px 0; color:#292720; font-size:13px; font-weight:bold;">
+                            {{ booking.room }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:13px 0; border-top:1px solid #eeeae3; color:#888; font-size:13px;">
+                            Kelish sanasi
+                        </td>
+                        <td align="right"
+                            style="padding:13px 0; border-top:1px solid #eeeae3; color:#292720; font-size:13px;">
+                            {{ booking.check_in|date:"d.m.Y" }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:13px 0; border-top:1px solid #eeeae3; color:#888; font-size:13px;">
+                            Ketish sanasi
+                        </td>
+                        <td align="right"
+                            style="padding:13px 0; border-top:1px solid #eeeae3; color:#292720; font-size:13px;">
+                            {{ booking.check_out|date:"d.m.Y" }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:13px 0; border-top:1px solid #eeeae3; color:#888; font-size:13px;">
+                            Kattalar soni
+                        </td>
+                        <td align="right"
+                            style="padding:13px 0; border-top:1px solid #eeeae3; color:#292720; font-size:13px;">
+                            {{ booking.adults }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:13px 0; border-top:1px solid #eeeae3; color:#888; font-size:13px;">
+                            Bolalar soni
+                        </td>
+                        <td align="right"
+                            style="padding:13px 0; border-top:1px solid #eeeae3; color:#292720; font-size:13px;">
+                            {{ booking.children }}
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <!-- TOTAL PRICE -->
+            <div style="
+                margin-top:20px;
+                padding:22px;
+                background:#171714;
+                text-align:center;
+            ">
+
+                <p style="
+                    margin:0 0 8px;
+                    color:#bdb8ad;
+                    font-family:Arial,sans-serif;
+                    font-size:10px;
+                    letter-spacing:2px;
+                    text-transform:uppercase;
+                ">
+                    Umumiy bron narxi
+                </p>
+
+                <h2 style="
+                    margin:0;
+                    color:#d4b477;
+                    font-family:Arial,sans-serif;
+                    font-size:29px;
+                    font-weight:normal;
+                ">
+                    ${{ booking.total_price }}
+                </h2>
+
+            </div>
+
+            <!-- STATUS -->
+            <div style="
+                margin-top:30px;
+                padding:25px;
+                background:#f8f6f1;
+                text-align:center;
+                border:1px solid #e8e0d2;
+            ">
+
+                <p style="
+                    margin:0 0 14px;
+                    color:#898276;
+                    font-family:Arial,sans-serif;
+                    font-size:10px;
+                    letter-spacing:2px;
+                    text-transform:uppercase;
+                ">
+                    Joriy bron holati
+                </p>
+
+                {% if booking.status == "CONFIRMED" %}
+
+                <span style="
+                        display:inline-block;
+                        padding:10px 22px;
+                        background:#e6f3e9;
+                        color:#247344;
+                        font-family:Arial,sans-serif;
+                        font-size:12px;
+                        font-weight:bold;
+                        letter-spacing:1px;
+                    ">
+                    {{ booking.get_status_display }}
+                </span>
+
+                {% elif booking.status == "REJECTED" or booking.status == "CANCELLED" %}
+
+                <span style="
+                        display:inline-block;
+                        padding:10px 22px;
+                        background:#fbe9e7;
+                        color:#b33b32;
+                        font-family:Arial,sans-serif;
+                        font-size:12px;
+                        font-weight:bold;
+                        letter-spacing:1px;
+                    ">
+                    {{ booking.get_status_display }}
+                </span>
+
+                {% elif booking.status == "CHECKED_IN" %}
+
+                <span style="
+                        display:inline-block;
+                        padding:10px 22px;
+                        background:#e6effb;
+                        color:#285c9b;
+                        font-family:Arial,sans-serif;
+                        font-size:12px;
+                        font-weight:bold;
+                        letter-spacing:1px;
+                    ">
+                    {{ booking.get_status_display }}
+                </span>
+
+                {% elif booking.status == "CHECKED_OUT" %}
+
+                <span style="
+                        display:inline-block;
+                        padding:10px 22px;
+                        background:#eeeaf7;
+                        color:#66509a;
+                        font-family:Arial,sans-serif;
+                        font-size:12px;
+                        font-weight:bold;
+                        letter-spacing:1px;
+                    ">
+                    {{ booking.get_status_display }}
+                </span>
+
+                {% else %}
+
+                <span style="
+                        display:inline-block;
+                        padding:10px 22px;
+                        background:#fff2d9;
+                        color:#946b20;
+                        font-family:Arial,sans-serif;
+                        font-size:12px;
+                        font-weight:bold;
+                        letter-spacing:1px;
+                    ">
+                    {{ booking.get_status_display }}
+                </span>
+
+                {% endif %}
+
+            </div>
+
+            <!-- STATUS MESSAGE -->
+            <div style="
+                margin-top:28px;
+                color:#6f6b63;
+                font-family:Arial,sans-serif;
+                font-size:13px;
+                line-height:1.9;
+            ">
+
+                {% if booking.status == "CONFIRMED" %}
+
+                <p>
+                    Tabriklaymiz! Sizning broningiz muvaffaqiyatli
+                    tasdiqlandi. Sizni mehmonxonamizda kutib olishdan
+                    mamnun bo'lamiz. Yoqimli va unutilmas dam olishingizni tilaymiz!
+                </p>
+
+                {% elif booking.status == "REJECTED" %}
+
+                <p>
+                    Afsuski, sizning bron qilish so'rovingiz rad etildi.
+                    Qo'shimcha ma'lumot olish uchun qo'llab-quvvatlash
+                    xizmatimizga murojaat qilishingiz mumkin.
+                </p>
+
+                {% elif booking.status == "CANCELLED" %}
+
+                <p>
+                    Sizning broningiz bekor qilindi.
+                    Savollaringiz bo'lsa, biz bilan bog'lanishingiz mumkin.
+                </p>
+
+                {% elif booking.status == "CHECKED_IN" %}
+
+                <p>
+                    Xush kelibsiz! Mehmonxonamizga joylashganingiz
+                    muvaffaqiyatli qayd etildi. Sizga maroqli hordiq
+                    va yoqimli dam olish tilaymiz!
+                </p>
+
+                {% elif booking.status == "CHECKED_OUT" %}
+
+                <p>
+                    Mehmonxonamizni tanlaganingiz uchun tashakkur!
+                    Umid qilamizki, bizdagi tashrifingiz sizda
+                    yoqimli taassurotlar qoldirdi. Sizni yana kutib qolamiz!
+                </p>
+
+                {% else %}
+
+                <p>
+                    Sizning broningiz hozirda
+                    {{ booking.get_status_display }} holatida.
+                    Holatdagi keyingi o'zgarishlar haqida sizga xabar beramiz.
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            <!-- SIGNATURE -->
+            <div style="
+                margin-top:35px;
+                padding-top:25px;
+                border-top:1px solid #e8e3d9;
+            ">
+
+                <p style="
+                    margin:0 0 8px;
+                    color:#888;
+                    font-family:Arial,sans-serif;
+                    font-size:12px;
+                ">
+                    Hurmat bilan,
+                </p>
+
+                <h3 style="
+                    margin:0;
+                    color:#25231f;
+                    font-size:19px;
+                    font-weight:normal;
+                ">
+                    Mehmonxona ma'muriyati
+                </h3>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div style="
+            padding:28px 25px;
+            background:#171714;
+            text-align:center;
+        ">
+
+            <p style="
+                margin:0 0 10px;
+                color:#d4b477;
+                font-size:17px;
+                letter-spacing:2px;
+            ">
+                HOTEL BOOKING
+            </p>
+
+            <p style="
+                margin:0;
+                color:#8e8a80;
+                font-family:Arial,sans-serif;
+                font-size:11px;
+                line-height:1.8;
+            ">
+                Bizni tanlaganingiz uchun rahmat!<br>
+                © Hotel Booking. Barcha huquqlar himoyalangan.
+            </p>
+
+        </div>
+
+    </div>
+
 </body>
 
 </html>

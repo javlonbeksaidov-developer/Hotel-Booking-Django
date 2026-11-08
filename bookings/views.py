@@ -1,11 +1,13 @@
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 
 from hotels.models import Room
 
+from .email import send_html_email
 from .models import Booking
 
 
@@ -123,3 +125,68 @@ def booking_page(request):
     }
 
     return render(request, "booking.html", context)
+
+
+@staff_member_required
+def booking_send_email(request):
+    bookings = Booking.objects.all().order_by("-id")
+
+    context = {
+        "bookings": bookings,
+        "status_choices": Booking.BookingStatus.choices,
+    }
+
+    return render(
+        request,
+        "email/booking_send_email.html",
+        context
+    )
+
+
+@staff_member_required
+def update_booking_status(request, booking_id):
+    if request.method != "POST":
+        return redirect("bookings:booking_send_email")
+
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    new_status = request.POST.get("status")
+
+    # Status qiymatini tekshirish
+    if new_status not in Booking.BookingStatus.values:
+        messages.error(request, "Noto'g'ri bron holati.")
+        return redirect("bookings:booking_send_email")
+
+    # Holat o'zgarmagan bo'lsa, email yubormaymiz
+    if booking.status == new_status:
+        messages.info(request, "Bron holati o'zgarmagan.")
+        return redirect("bookings:booking_send_email")
+
+    # Eski holatni saqlab qolamiz
+    old_status = booking.status
+
+    # Yangi holatni saqlash
+    booking.status = new_status
+    booking.save(update_fields=["status"])
+
+    # Mijozga email yuborish
+    email_sent = send_html_email({
+        "title": f"Booking #{booking.id} - {booking.get_status_display()}",
+        "email": booking.guest_email,
+        "booking": booking,
+    })
+
+    if email_sent:
+        messages.success(
+            request,
+            f"Bron holati o'zgartirildi: "
+            f"{booking.get_status_display()}. Email yuborildi."
+        )
+    else:
+        messages.warning(
+            request,
+            f"Bron holati o'zgartirildi, lekin email yuborilmadi. "
+            f"Eski holat: {old_status}."
+        )
+
+    return redirect("bookings:booking_send_email")

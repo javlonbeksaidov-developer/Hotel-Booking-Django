@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .booking-management {
+        background: #0b0b0b;
+        min-height: 100vh;
+        padding: 70px 0;
+        color: #f5f1e9;
+    }
+
+    .booking-header {
+        margin-bottom: 40px;
+    }
+
+    .booking-header h1 {
+        font-family: Georgia, serif;
+        font-size: 55px;
+        font-weight: 400;
+        margin-bottom: 15px;
+    }
+
+    .booking-header p {
+        color: #c5c0b8;
+        font-size: 16px;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        border: 1px solid #39332a;
+    }
+
+    .booking-table {
+        width: 100%;
+        min-width: 1200px;
+        border-collapse: collapse;
+        background: #111;
+    }
+
+    .booking-table th {
+        background: #c6a15b;
+        color: #111;
+        padding: 18px 15px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .booking-table td {
+        padding: 18px 15px;
+        border-bottom: 1px solid #302b24;
+        color: #e8e4dc;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .booking-table tbody tr {
+        transition: background 0.3s ease;
+    }
+
+    .booking-table tbody tr:hover {
+        background: #1d1a15;
+    }
+
+    .customer-name {
+        font-weight: 600;
+        color: #d5b477 !important;
+    }
+
+    .status-select {
+        background: #171717;
+        color: #f5f1e9;
+        border: 1px solid #9b7b43;
+        padding: 10px;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .status-select option {
+        background: #171717;
+        color: white;
+    }
+
+    .update-btn {
+        background: #c6a15b;
+        color: #111;
+        border: none;
+        padding: 12px 16px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .update-btn:hover {
+        background: #e0c184;
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 35px !important;
+        color: #aaa !important;
+    }
+
+
+    .status-select {
+        width: 160px;
+        min-width: 160px;
+        height: 52px;
+
+        background: #171717;
+        color: #f5f1e9;
+
+        border: 1px solid #c6a15b;
+        padding: 0 12px;
+
+        font-size: 14px;
+        font-family: inherit;
+
+        outline: none;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .status-select option {
+        background: #171717;
+        color: #f5f1e9;
+        padding: 10px;
+    }
+
+    .booking-table th:nth-child(10),
+    .booking-table td:nth-child(10) {
+        min-width: 180px;
+    }
+</style>
+
+<section class="booking-management">
+    <div class="container">
+
+        <div class="booking-header">
+            <h1>Booking Management</h1>
+            <p>Manage customer reservations and send email notifications.</p>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="booking-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Room</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Adults</th>
+                        <th>Children</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>#{{ booking.id }}</td>
+
+                        <td class="customer-name">
+                            {{ booking.guest_name }}
+                        </td>
+
+                        <td>{{ booking.guest_email }}</td>
+
+                        <td>{{ booking.room }}</td>
+
+                        <td>{{ booking.check_in|date:"d.m.Y" }}</td>
+
+                        <td>{{ booking.check_out|date:"d.m.Y" }}</td>
+
+                        <td>{{ booking.adults }}</td>
+
+                        <td>{{ booking.children }}</td>
+
+                        <td>${{ booking.total_price }}</td>
+
+                        <td>
+                            <form method="POST" action="{% url 'bookings:update_booking_status' booking.id %}">
+                                {% csrf_token %}
+
+                                <select name="status" class="status-select">
+                                    {% for value, label in status_choices %}
+                                    <option value="{{ value }}" {% if booking.status == value %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                        </td>
+
+                        <td>
+                            <button type="submit" class="update-btn">
+                                Update & Send Email
+                            </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="11" class="empty-message">
+                            No bookings found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

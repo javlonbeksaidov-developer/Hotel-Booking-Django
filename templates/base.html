@@ -110,7 +110,7 @@
                 <a href="{% url 'hotels:rooms' %}" 
                 class="{% if request.resolver_match.url_name == 'rooms' %}active{% endif %}" 
                 {% if request.resolver_match.url_name == 'rooms' %}aria-current="page"{% endif %}>
-                Rooms &amp; Suites
+                Rooms
                 </a>
 
                 <a href="{% url 'hotels:services' %}" 
@@ -136,6 +136,14 @@
                 {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>
                 Contact
                 </a>
+
+                {% if request.user.is_authenticated and request.user.is_superuser %}
+                    <a href="{% url 'bookings:booking_send_email' %}"
+                    class="{% if request.resolver_match.url_name == 'booking_send_email' %}active{% endif %}"
+                    {% if request.resolver_match.url_name == 'booking_send_email' %}aria-current="page"{% endif %}>
+                        Booking
+                    </a>
+                {% endif %}
 
                 {% if request.user.is_authenticated %}
 
