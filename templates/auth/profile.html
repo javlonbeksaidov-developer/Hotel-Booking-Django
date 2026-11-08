@@ -1,0 +1,581 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<style>
+    :root {
+        --bg: #09090b;
+        --card: #111113;
+        --card-hover: #18181b;
+        --border: #27272a;
+        --text: #fafafa;
+        --muted: #a1a1aa;
+        --accent: #8b5cf6;
+        --accent-hover: #7c3aed;
+    }
+
+    .profile-page {
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        padding: 55px 20px;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .profile-container {
+        max-width: 1050px;
+        margin: 0 auto;
+    }
+
+    .profile-header {
+        margin-bottom: 35px;
+    }
+
+    .profile-header h1 {
+        font-size: 32px;
+        font-weight: 750;
+        letter-spacing: -1px;
+        margin-bottom: 8px;
+    }
+
+    .profile-header p {
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    .profile-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 22px;
+        align-items: start;
+    }
+
+    .profile-card,
+    .details-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+    }
+
+    .profile-card {
+        padding: 30px 24px;
+        text-align: center;
+        position: sticky;
+        top: 25px;
+    }
+
+    .avatar-wrapper {
+        width: 115px;
+        height: 115px;
+        margin: 0 auto 20px;
+        position: relative;
+    }
+
+    .avatar-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #29292f;
+        background: #27272a;
+    }
+
+    .avatar-upload {
+        position: absolute;
+        bottom: 2px;
+        right: 0;
+        width: 34px;
+        height: 34px;
+        background: var(--accent);
+        border: 3px solid var(--card);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .avatar-upload:hover {
+        background: var(--accent-hover);
+    }
+
+    .avatar-upload input {
+        display: none;
+    }
+
+    .profile-name {
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 5px;
+        overflow-wrap: anywhere;
+    }
+
+    .profile-username {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 20px;
+    }
+
+    .profile-badge {
+        display: inline-block;
+        padding: 7px 13px;
+        border-radius: 30px;
+        background: rgba(139, 92, 246, .12);
+        color: #a78bfa;
+        font-size: 11px;
+        font-weight: 600;
+        border: 1px solid rgba(139, 92, 246, .2);
+    }
+
+    .profile-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 25px 0;
+    }
+
+    .profile-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        margin-bottom: 14px;
+        gap: 10px;
+    }
+
+    .profile-meta span:first-child {
+        color: var(--muted);
+    }
+
+    .profile-meta span:last-child {
+        color: #e4e4e7;
+        text-align: right;
+    }
+
+    .details-card {
+        padding: 30px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+
+    .section-description {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 27px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        font-size: 12px;
+        color: #d4d4d8;
+        font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        background: #09090b;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 13px 14px;
+        color: white;
+        font-size: 13px;
+        outline: none;
+        transition: .2s;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, .12);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: #52525b;
+    }
+
+    .form-group input:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 110px;
+    }
+
+    .form-group small {
+        color: #71717a;
+        font-size: 11px;
+    }
+
+    .form-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 30px 0;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .btn {
+        border: none;
+        border-radius: 9px;
+        padding: 12px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .btn-cancel {
+        background: #27272a;
+        color: #e4e4e7;
+    }
+
+    .btn-cancel:hover {
+        background: #3f3f46;
+    }
+
+    .btn-save {
+        background: var(--accent);
+        color: white;
+    }
+
+    .btn-save:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+    }
+
+    @media(max-width: 750px) {
+        .profile-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-card {
+            position: static;
+        }
+    }
+
+    @media(max-width: 500px) {
+        .profile-page {
+            padding: 30px 14px;
+        }
+
+        .details-card {
+            padding: 22px 17px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .profile-header h1 {
+            font-size: 26px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .form-actions button {
+            width: 100%;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #27272a;
+            color: #f87171;
+            border: 1px solid #3f3f46;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .logout-btn:hover {
+            background: #7f1d1d;
+            color: white;
+        }
+    }
+</style>
+
+
+<div class="profile-page">
+    <div class="profile-container">
+
+        <div class="profile-header">
+            <h1>My Profile</h1>
+            <p>Shaxsiy ma'lumotlaringizni boshqaring va profilingizni yangilang.</p>
+        </div>
+
+        <div class="profile-layout">
+
+            <!-- LEFT: PROFILE CARD -->
+            <aside class="profile-card">
+
+                <div class="avatar-wrapper">
+                    <img
+                        id="avatarPreview"
+                        src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ user.username|urlencode }}&background=27272a&color=fff&size=200{% endif %}"
+                        alt="Profile Avatar"
+                    >
+
+                    <label class="avatar-upload" title="Change avatar">
+                        ✎
+                        <input
+                            type="file"
+                            name="avatar"
+                            id="avatarInput"
+                            accept="image/*"
+                            form="profileForm"
+                        >
+                    </label>
+                </div>
+
+                <h2 class="profile-name">
+                    {{ user.get_full_name|default:user.username }}
+                </h2>
+
+                <p class="profile-username">
+                    @{{ user.username }}
+                </p>
+
+                <span class="profile-badge">
+                    ● ACTIVE ACCOUNT
+                </span>
+
+                <div class="profile-divider"></div>
+
+                <div class="profile-meta">
+                    <span>Email</span>
+                    <span>{{ user.email|default:"Not provided" }}</span>
+                </div>
+
+                <div class="profile-meta">
+                    <span>Joined</span>
+                    <span>{{ user.date_joined|date:"d.m.Y" }}</span>
+                </div>
+
+                <div class="profile-meta">
+                    <span>Last login</span>
+                    <span>{{ user.last_login|date:"d.m.Y"|default:"-" }}</span>
+                </div>
+
+                <form action="{% url 'users:logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">
+                        Logout ↗
+                    </button>
+                </form>
+
+            </aside>
+
+
+            <!-- RIGHT: PROFILE FORM -->
+            <main class="details-card">
+
+                <h2 class="section-title">Personal Information</h2>
+
+                <p class="section-description">
+                    Profilingizdagi shaxsiy ma'lumotlarni shu yerdan tahrirlashingiz mumkin.
+                </p>
+
+                <form method="POST" enctype="multipart/form-data" id="profileForm">
+                    {% csrf_token %}
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input
+                                type="text"
+                                value="{{ user.username }}"
+                                disabled
+                            >
+                            <small>Username o'zgartirilmaydi.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email address</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value="{{ user.email }}"
+                                placeholder="example@gmail.com"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input
+                                type="text"
+                                name="first_name"
+                                value="{{ user.first_name }}"
+                                placeholder="Ismingiz"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input
+                                type="text"
+                                name="last_name"
+                                value="{{ user.last_name }}"
+                                placeholder="Familiyangiz"
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <h2 class="section-title">Additional Information</h2>
+
+                    <p class="section-description">
+                        Qo'shimcha ma'lumotlar orqali profilingizni to'ldiring.
+                    </p>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input
+                                type="tel"
+                                name="phone_number"
+                                value="{{ profile.phone_number|default:'' }}"
+                                placeholder="+998 90 123 45 67"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input
+                                type="date"
+                                name="date_of_birth"
+                                value="{{ profile.date_of_birth|date:'Y-m-d'|default:'' }}"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input
+                                type="text"
+                                name="country"
+                                value="{{ profile.country|default:'' }}"
+                                placeholder="Uzbekistan"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label>City</label>
+                            <input
+                                type="text"
+                                name="city"
+                                value="{{ profile.city|default:'' }}"
+                                placeholder="Samarkand"
+                            >
+                        </div>
+
+                        <div class="form-group full">
+                            <label>About Me</label>
+                            <textarea
+                                name="bio"
+                                placeholder="O'zingiz haqingizda qisqacha yozing..."
+                            >{{ profile.bio|default:'' }}</textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button
+                            type="reset"
+                            class="btn btn-cancel"
+                            onclick="setTimeout(resetAvatar, 0)"
+                        >
+                            Cancel
+                        </button>
+
+                        <button type="submit" class="btn btn-save">
+                            Save Changes →
+                        </button>
+                    </div>
+
+                </form>
+
+            </main>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Avatar preview
+    const avatarInput = document.getElementById("avatarInput");
+    const avatarPreview = document.getElementById("avatarPreview");
+
+    const originalAvatar = avatarPreview.src;
+
+    avatarInput.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            if (!file.type.startsWith("image/")) {
+                alert("Iltimos, faqat rasm faylini tanlang!");
+                this.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                avatarPreview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function resetAvatar() {
+        avatarPreview.src = originalAvatar;
+        avatarInput.value = "";
+    }
+</script>
+
+{% endblock %}

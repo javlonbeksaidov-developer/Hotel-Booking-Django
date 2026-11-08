@@ -16,6 +16,22 @@
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <style>
+        .navbar-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #8b5cf6;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.navbar-avatar:hover {
+    transform: scale(1.08);
+    border-color: #a78bfa;
+}
+    </style>
 </head>
 
 <body class="page-home">
@@ -72,6 +88,39 @@
                 {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>
                 Contact
                 </a>
+
+                {% if request.user.is_authenticated %}
+
+                    <a href="{% url 'users:profile' %}"
+                    class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
+                    {% if request.resolver_match.url_name == 'profile' %}aria-current="page"{% endif %}
+                    title="My Profile">
+
+                        {% if request.user.profile.avatar %}
+                            <img
+                                src="{{ request.user.profile.avatar.url }}"
+                                alt="Profile"
+                                class="navbar-avatar"
+                            >
+                        {% else %}
+                            <img
+                                src="https://ui-avatars.com/api/?name={{ request.user.username|urlencode }}&background=27272a&color=fff"
+                                alt="Profile"
+                                class="navbar-avatar"
+                            >
+                        {% endif %}
+
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'users:login' %}"
+                    class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}"
+                    {% if request.resolver_match.url_name == 'login' %}aria-current="page"{% endif %}>
+                        Login
+                    </a>
+
+                {% endif %}
 
                 <div class="menu-actions mobile-only">
                     <a class="btn btn-gold {% if request.resolver_match.url_name == 'booking' %}active{% endif %}" 
