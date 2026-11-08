@@ -17,3 +17,6 @@ Ushbu loyiha mehmonxonalar, xonalar va ularni bron qilish (band qilish) jarayonl
 * **Xavfsizlik & Autentifikatsiya:** JWT & RBAC
 
 Docker docker compose up -d --build
+
+
+demo: JShotelbooking.pythonanywhere.com
