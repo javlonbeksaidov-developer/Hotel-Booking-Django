@@ -15,3 +15,5 @@ Ushbu loyiha mehmonxonalar, xonalar va ularni bron qilish (band qilish) jarayonl
 * **Ma'lumotlar bazasi:** SQLite / PostgreSQL
 * **Konteynerizatsiya:** Docker & Docker Compose
 * **Xavfsizlik & Autentifikatsiya:** JWT & RBAC
+
+Docker docker compose up -d --build

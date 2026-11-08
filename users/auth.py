@@ -15,7 +15,7 @@ def login_page(request):
         user = authenticate(request=request, username=username, password=password)
         if user is None:
             messages.error(request, message="Username or password is wrong !")
-            return redirect("auth_app:login")
+            return redirect("users:login")
 
         login(request=request, user=user)
         return redirect("users:profile")
