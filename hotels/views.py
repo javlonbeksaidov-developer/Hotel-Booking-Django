@@ -24,10 +24,6 @@ def home_page(request):
     return render(request, "index.html")
 
 
-def about_page(request):
-    return render(request, "about.html")
-
-
 def rooms_page(request):
 
     today = timezone.localdate()
@@ -81,10 +77,6 @@ def room_detail(request, pk):
     return render(request, "room_detail.html", {"room": room})
 
 
-def services_page(request):
-    return render(request, "services.html")
-
-
 def gallery_page(request):
     images = RoomImage.objects.select_related("room").all()
     videos = RoomVideo.objects.select_related("room").all()
@@ -95,10 +87,6 @@ def gallery_page(request):
     }
 
     return render(request, "gallery.html", context)
-
-
-def location_page(request):
-    return render(request, "location.html")
 
 
 def contact_page(request):

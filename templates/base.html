@@ -101,11 +101,6 @@
                 Home
                 </a>
 
-                <a href="{% url 'hotels:about' %}" 
-                class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}" 
-                {% if request.resolver_match.url_name == 'about' %}aria-current="page"{% endif %}>
-                About
-                </a>
 
                 <a href="{% url 'hotels:rooms' %}" 
                 class="{% if request.resolver_match.url_name == 'rooms' %}active{% endif %}" 
@@ -113,22 +108,11 @@
                 Rooms
                 </a>
 
-                <a href="{% url 'hotels:services' %}" 
-                class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}" 
-                {% if request.resolver_match.url_name == 'services' %}aria-current="page"{% endif %}>
-                Services
-                </a>
 
                 <a href="{% url 'hotels:gallery' %}" 
                 class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}" 
                 {% if request.resolver_match.url_name == 'gallery' %}aria-current="page"{% endif %}>
                 Gallery
-                </a>
-
-                <a href="{% url 'hotels:location' %}" 
-                class="{% if request.resolver_match.url_name == 'location' %}active{% endif %}" 
-                {% if request.resolver_match.url_name == 'location' %}aria-current="page"{% endif %}>
-                Location
                 </a>
 
                 <a href="{% url 'hotels:contact' %}" 
@@ -209,9 +193,7 @@
             <div>
                 <h4>Explore</h4>
                 <ul class="plain">
-                    <li><a href="{% url 'hotels:about' %}">About</a></li>
                     <li><a href="{% url 'hotels:rooms' %}">Rooms &amp; Suites</a></li>
-                    <li><a href="{% url 'hotels:services' %}">Services</a></li>
                     <li><a href="{% url 'hotels:gallery' %}">Gallery</a></li>
                     <li><a href="{% url 'bookings:booking' %}">Book a stay</a></li>
                 </ul>
