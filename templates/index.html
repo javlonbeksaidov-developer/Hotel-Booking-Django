@@ -12,38 +12,30 @@
     <source src="{% static 'videos/hero-video.mp4' %}" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
-  <div class="container hero-content">
-    <p class="eyebrow rise">Welcome to exceptional hospitality</p>
-    <h1 class="rise d2">Experience Luxury Beyond Expectations</h1>
-    <p class="lead rise d3">Quiet rooms, refined dining and service that anticipates what you need, in the heart of the
-      city.</p>
-    <div class="btn-row rise d4"><a class="btn btn-gold" href="{% url 'hotels:rooms' %}">Explore Our Rooms</a><a
-        class="btn btn-line" href="#about">Discover More</a></div>
-  </div>
   <div class="container hero-widget rise d5">
     <form class="booking-widget glass" action="{% url 'bookings:booking' %}" method="get" id="searchForm"
       aria-label="Search availability">
-      <div class="field"><label for="checkin">Check-in</label><input type="date" id="checkin" name="checkin" required>
+      <div class="field"><label for="checkin">Kirish vaqti</label><input type="date" id="checkin" name="checkin" required>
       </div>
-      <div class="field"><label for="checkout">Check-out</label><input type="date" id="checkout" name="checkout"
+      <div class="field"><label for="checkout">Chiqish vaqti</label><input type="date" id="checkout" name="checkout"
           required></div>
-      <div class="field"><label for="adults">Adults</label><select id="adults" name="adults">
+      <div class="field"><label for="adults">Kattalar soni</label><select id="adults" name="adults">
           <option value="1">1</option>
           <option value="2" selected>2</option>
           <option value="3">3</option>
         </select></div>
-      <div class="field"><label for="children">Children</label><select id="children" name="children">
+      <div class="field"><label for="children">Bolalar soni</label><select id="children" name="children">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
         </select></div>
-      <div class="field"><label for="roomsCount">Rooms</label><select id="roomsCount" name="rooms">
+      <div class="field"><label for="roomsCount">Xonalar soni</label><select id="roomsCount" name="rooms">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
         </select></div>
-      <button class="btn btn-gold" type="submit">Search Availability</button>
+      <button class="btn btn-gold" type="submit">Qidirish</button>
     </form>
   </div>
 </section>
