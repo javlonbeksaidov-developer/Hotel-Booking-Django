@@ -1,223 +1,109 @@
-.room-detail {
-  padding: 60px 0;
-  color: #222;
+/* ==========================================================================
+   ROOM_DATAIL.CSS — xona sahifasi: bitta oynaga sig'adigan ixcham maket
+   Chapda: rasm+video galereya (< >). O'ngda: ma'lumot va bron.
+   Telefonda: galereya tepada, ma'lumot ostida, bron paneli pastda qotib turadi.
+   ========================================================================== */
+.room-detail{padding:calc(var(--header-h) + 18px) 0 14px;color:var(--white)}
+.room-detail .container{width:min(1280px,94%);margin:auto}
+
+.breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;color:var(--muted);font-size:.82rem}
+.breadcrumb a{color:var(--turq);transition:color .25s}
+.breadcrumb a:hover{color:var(--saffron)}
+
+/* ---------- Asosiy to'r: kompyuterda ekran balandligiga sig'adi ---------- */
+.rd-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,1fr);gap:16px;height:calc(100svh - var(--header-h) - 74px);min-height:540px}
+
+/* ---------- Galereya ---------- */
+.rd-media{display:flex;flex-direction:column;gap:10px;min-height:0;min-width:0}
+.rd-stage{position:relative;flex:1;min-height:0;overflow:hidden;background:#07051a;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.rd-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility .5s}
+.rd-slide.active{opacity:1;visibility:visible}
+.rd-slide img{width:100%;height:100%;object-fit:cover}
+.rd-slide video{width:100%;height:100%;object-fit:contain;background:#000}
+.rd-stage:fullscreen{border-radius:0;border:0}
+.rd-stage:fullscreen .rd-slide img{object-fit:contain}
+
+/* Yon strelkalar */
+.rd-nav{position:absolute;top:calc(50% - 23px);z-index:3;width:46px;height:46px;display:grid;place-items:center;padding:0 0 4px;font-size:2rem;line-height:1;color:var(--white);background:rgba(16,12,39,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:50%;cursor:pointer;transition:background .3s,color .3s,transform .3s var(--ease)}
+.rd-nav:hover{background:var(--grad-gold);color:#1b1033;border-color:transparent;transform:scale(1.08)}
+.rd-prev{left:12px}.rd-next{right:12px}
+
+.rd-count{position:absolute;left:12px;bottom:12px;z-index:3;padding:.2em .8em;font-size:.78rem;font-weight:700;color:var(--white);background:rgba(16,12,39,.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:999px}
+.rd-full{position:absolute;right:12px;top:12px;z-index:3;width:38px;height:38px;display:grid;place-items:center;font-size:1.1rem;color:var(--white);background:rgba(16,12,39,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:background .3s,color .3s}
+.rd-full:hover{background:var(--turq);color:#08233a}
+
+/* Pastki qator: < kichik rasmlar > */
+.rd-bar{display:flex;align-items:center;gap:8px}
+.rd-step{flex:none;width:38px;height:62px;display:grid;place-items:center;padding:0 0 3px;font-size:1.6rem;line-height:1;color:var(--saffron);background:var(--char);border:1px solid var(--line-soft);border-radius:10px;cursor:pointer;transition:background .3s,color .3s,border-color .3s}
+.rd-step:hover{background:var(--grad-gold);color:#1b1033;border-color:transparent}
+.rd-strip{position:relative;flex:1;min-width:0;display:flex;gap:8px;overflow-x:auto;padding:3px 2px;scroll-snap-type:x proximity;scrollbar-width:none}
+.rd-strip::-webkit-scrollbar{display:none}
+.rd-thumb{position:relative;flex:none;width:92px;height:62px;padding:0;overflow:hidden;background:var(--char);border:2px solid transparent;border-radius:10px;cursor:pointer;opacity:.6;scroll-snap-align:center;transition:opacity .3s,border-color .3s,transform .3s var(--ease)}
+.rd-thumb img,.rd-thumb video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.rd-thumb:hover{opacity:1;transform:translateY(-2px)}
+.rd-thumb.active{opacity:1;border-color:var(--saffron);box-shadow:0 0 0 3px rgba(255,182,39,.2)}
+.rd-play{position:absolute;inset:0;display:grid;place-items:center;font-size:1rem;color:#fff;background:rgba(16,12,39,.4);text-shadow:0 2px 8px rgba(0,0,0,.6)}
+
+/* Bitta element bo'lsa — strelka va kichik rasmlar kerak emas */
+.rd-media.single .rd-nav,
+.rd-media.single .rd-bar,
+.rd-media.single .rd-count{display:none}
+
+/* ---------- Ma'lumot paneli ---------- */
+.rd-info{display:flex;flex-direction:column;gap:12px;min-height:0;min-width:0;padding:20px;background:linear-gradient(180deg,var(--char2),var(--char));border:1px solid var(--line-soft);border-radius:var(--r-lg)}
+.room-detail .room-category{display:inline-flex;align-items:center;gap:.6em;font-size:.78rem;font-weight:800;letter-spacing:.14em;color:var(--turq)}
+.room-detail .room-category::before{content:"";width:8px;height:8px;background:var(--saffron);transform:rotate(45deg)}
+.rd-head h1{font-size:clamp(1.7rem,2.6vw,2.4rem);margin:.25em 0 0}
+
+.rd-scroll{flex:1;min-height:0;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:var(--saffron) transparent}
+
+.room-features{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.feature{display:flex;align-items:center;gap:10px;padding:9px 11px;background:rgba(255,255,255,.04);border:1px solid var(--line-soft);border-radius:var(--r);transition:transform .3s var(--ease),border-color .3s,background .3s}
+.feature:hover{transform:translateY(-2px);border-color:var(--turq);background:rgba(25,211,197,.08)}
+.feature>span{flex:none;display:grid;place-items:center;width:38px;height:38px;font-size:1.2rem;border-radius:10px;background:rgba(255,182,39,.15)}
+.feature div{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.feature small{color:var(--muted);font-size:.72rem}
+.feature strong{font-size:.86rem;font-weight:700}
+
+.room-detail .room-description{margin-top:14px;line-height:1.75}
+.room-detail .room-description h2{font-size:1.15rem;margin-bottom:.4em}
+.room-detail .room-description p{color:var(--beige);font-size:.92rem;margin:0}
+
+/* ---------- Bron kartasi ---------- */
+.booking-card{flex:none;padding:14px 16px;background:linear-gradient(135deg,rgba(25,211,197,.12),rgba(255,182,39,.12));border:1px solid var(--line);border-radius:var(--r-lg)}
+.bc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bc-label{display:block;font-size:.74rem;color:var(--muted)}
+.bc-price{font:400 2rem/1.1 var(--serif);color:var(--saffron)}
+.available{color:var(--ok)!important;font-weight:800;font-size:.86rem}
+.unavailable{color:var(--bad)!important;font-weight:800;font-size:.86rem}
+.booking-btn{display:block;width:100%;padding:.9em;margin:12px 0 8px;background:var(--grad-gold);color:#1b1033;font:800 .82rem var(--sans);letter-spacing:.08em;text-transform:uppercase;text-align:center;border:0;border-radius:var(--r);cursor:pointer;box-shadow:0 8px 22px rgba(255,154,31,.3);transition:transform .3s var(--ease),box-shadow .3s}
+.booking-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,154,31,.5)}
+.booking-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;background:#4a4470;color:#cfc9ef}
+.booking-card p{margin:0;text-align:center;color:var(--muted);font-size:.78rem}
+
+/* Telefon paneli (kompyuterda yashirin) */
+.book-bar{display:none}
+
+/* ---------- Planshet va telefon ---------- */
+@media (max-width:900px){
+  .room-detail{padding-bottom:92px}
+  .rd-layout{display:block;height:auto;min-height:0}
+  .rd-media{display:flex}
+  .rd-stage{flex:none;aspect-ratio:4/3}
+  .rd-info{margin-top:14px;padding:16px}
+  .rd-scroll{overflow:visible;padding-right:0}
+  .booking-card{display:none}
+
+  .book-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;position:fixed;left:0;right:0;bottom:0;z-index:95;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(16,12,39,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(0,0,0,.4)}
+  .book-bar small{display:block;font-size:.72rem;color:var(--muted);line-height:1.2}
+  .book-bar strong{font:400 1.7rem/1.1 var(--serif);color:var(--saffron)}
+  .book-bar .booking-btn{width:auto;flex:1;max-width:240px;margin:0;padding:.95em 1em}
+  .to-top{bottom:5.6rem}
 }
-
-.room-detail .container {
-  width: min(1200px, 92%);
-  margin: auto;
-}
-
-.breadcrumb {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 30px;
-  color: #888;
-  font-size: 14px;
-}
-
-.breadcrumb a {
-  color: #b58b55;
-  text-decoration: none;
-}
-
-.room-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
-  margin-bottom: 30px;
-}
-
-.room-category {
-  color: #b58b55;
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 2px;
-}
-
-.room-header h1 {
-  font-size: 38px;
-  margin: 12px 0;
-}
-
-.room-header p {
-  color: #777;
-  max-width: 650px;
-  line-height: 1.7;
-}
-
-.room-price {
-  text-align: right;
-  white-space: nowrap;
-}
-
-.room-price h2 {
-  font-size: 32px;
-  margin: 0;
-}
-
-.room-price span {
-  color: #888;
-}
-
-.room-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-bottom: 50px;
-}
-
-.gallery-item img,
-.gallery-empty img {
-  width: 100%;
-  height: 350px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-.room-content {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 50px;
-}
-
-.room-main h2 {
-  font-size: 24px;
-  margin-bottom: 25px;
-}
-
-.room-features {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.feature {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  background: #f7f7f7;
-  border-radius: 10px;
-}
-
-.feature > span {
-  font-size: 28px;
-}
-
-.feature div {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.feature small {
-  color: #888;
-}
-
-.room-description {
-  margin-top: 45px;
-  line-height: 1.8;
-}
-
-.room-description p {
-  color: #777;
-}
-
-.booking-card {
-  height: fit-content;
-  padding: 28px;
-  border: 1px solid #eee;
-  border-radius: 14px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
-}
-
-.booking-card > span {
-  color: #888;
-}
-
-.booking-card h2 {
-  font-size: 30px;
-  margin: 10px 0 20px;
-}
-
-.booking-card h2 small {
-  font-size: 14px;
-  color: #888;
-}
-
-.available {
-  color: #219653 !important;
-}
-
-.unavailable {
-  color: #d93025 !important;
-}
-
-.booking-btn {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  margin: 20px 0;
-  background: #b58b55;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.booking-btn:hover {
-  background: #987143;
-}
-
-.booking-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.booking-card p {
-  color: #888;
-  font-size: 13px;
-}
-
-.room-videos {
-  margin-top: 40px;
-}
-
-.video-item {
-  margin-bottom: 25px;
-}
-
-.video-item video {
-  border-radius: 12px;
-}
-
-@media (max-width: 768px) {
-  .room-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .room-price {
-    text-align: left;
-  }
-
-  .room-gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .gallery-item img {
-    height: 250px;
-  }
-
-  .room-content {
-    grid-template-columns: 1fr;
-  }
-
-  .room-features {
-    grid-template-columns: 1fr;
-  }
+@media (max-width:480px){
+  .rd-nav{width:40px;height:40px;font-size:1.7rem}
+  .rd-thumb{width:78px;height:54px}
+  .rd-step{height:54px;width:32px}
+  .room-features{grid-template-columns:1fr 1fr;gap:6px}
+  .feature{padding:8px}
 }

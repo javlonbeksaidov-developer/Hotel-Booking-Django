@@ -1,133 +1,40 @@
-.booking-management {
-  background: #0b0b0b;
-  min-height: 100vh;
-  padding: 70px 0;
-  color: #f5f1e9;
-}
+/* ==========================================================================
+   BOOKING_EMAIL.CSS — bronlarni boshqarish (admin jadvali)
+   ========================================================================== */
+.booking-management{background:var(--black);min-height:100vh;padding:6.2rem 0 3rem;color:var(--white)}
+.booking-header{margin-bottom:1.6rem}
+.booking-header h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:.3em}
+.booking-header p{color:var(--muted);font-size:.95rem;margin:0}
 
-.booking-header {
-  margin-bottom: 40px;
-}
+/* Jadval o'rami: gorizontal skroll (telefon uchun) */
+.table-wrapper{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--char);box-shadow:var(--shadow)}
+.booking-table{width:100%;min-width:1100px;border-collapse:separate;border-spacing:0}
+.booking-table th{position:sticky;top:0;background:var(--grad-gold);color:#1b1033;padding:15px 14px;text-align:left;font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.booking-table td{padding:14px;border-bottom:1px solid var(--line-soft);color:#e9e5ff;font-size:.88rem;white-space:nowrap;background:var(--char)}
+.booking-table tbody tr{transition:background .25s}
+.booking-table tbody tr:hover td{background:var(--char2)}
+.booking-table tbody tr:last-child td{border-bottom:0}
 
-.booking-header h1 {
-  font-family: Georgia, serif;
-  font-size: 55px;
-  font-weight: 400;
-  margin-bottom: 15px;
-}
+/* Birinchi ustun qotib turadi */
+.booking-table th:first-child,.booking-table td:first-child{position:sticky;left:0;z-index:2}
 
-.booking-header p {
-  color: #c5c0b8;
-  font-size: 16px;
-}
+.customer-name{font-weight:800;color:var(--saffron)!important}
 
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  border: 1px solid #39332a;
-}
+/* Holat tanlash */
+.status-select{width:160px;min-width:160px;height:44px;background:var(--black);color:var(--white);border:1.5px solid var(--turq);border-radius:10px;padding:0 12px;font:inherit;font-size:.88rem;outline:none;cursor:pointer;transition:box-shadow .25s,border-color .25s}
+.status-select:hover{border-color:var(--saffron)}
+.status-select:focus{box-shadow:0 0 0 3px rgba(25,211,197,.25)}
+.status-select option{background:var(--char);color:var(--white);padding:10px}
 
-.booking-table {
-  width: 100%;
-  min-width: 1200px;
-  border-collapse: collapse;
-  background: #111;
-}
+.update-btn{background:var(--grad-gold);color:#1b1033;border:0;border-radius:10px;padding:12px 18px;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 16px rgba(255,154,31,.28);transition:transform .3s var(--ease),box-shadow .3s}
+.update-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(255,154,31,.5)}
 
-.booking-table th {
-  background: #c6a15b;
-  color: #111;
-  padding: 18px 15px;
-  text-align: left;
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.booking-table td {
-  padding: 18px 15px;
-  border-bottom: 1px solid #302b24;
-  color: #e8e4dc;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.booking-table tbody tr {
-  transition: background 0.3s ease;
-}
-
-.booking-table tbody tr:hover {
-  background: #1d1a15;
-}
-
-.customer-name {
-  font-weight: 600;
-  color: #d5b477 !important;
-}
-
-.status-select {
-  background: #171717;
-  color: #f5f1e9;
-  border: 1px solid #9b7b43;
-  padding: 10px;
-  outline: none;
-  cursor: pointer;
-}
-
-.status-select option {
-  background: #171717;
-  color: white;
-}
-
-.update-btn {
-  background: #c6a15b;
-  color: #111;
-  border: none;
-  padding: 12px 16px;
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.update-btn:hover {
-  background: #e0c184;
-}
-
-.empty-message {
-  text-align: center;
-  padding: 35px !important;
-  color: #aaa !important;
-}
-
-.status-select {
-  width: 160px;
-  min-width: 160px;
-  height: 52px;
-
-  background: #171717;
-  color: #f5f1e9;
-
-  border: 1px solid #c6a15b;
-  padding: 0 12px;
-
-  font-size: 14px;
-  font-family: inherit;
-
-  outline: none;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-.status-select option {
-  background: #171717;
-  color: #f5f1e9;
-  padding: 10px;
-}
+.empty-message{text-align:center;padding:2.2rem!important;color:var(--muted)!important}
 
 .booking-table th:nth-child(10),
-.booking-table td:nth-child(10) {
-  min-width: 180px;
+.booking-table td:nth-child(10){min-width:180px}
+
+@media (max-width:600px){
+  .booking-management{padding-top:5.6rem}
+  .update-btn{padding:11px 14px}
 }

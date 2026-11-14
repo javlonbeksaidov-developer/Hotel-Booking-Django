@@ -7,128 +7,216 @@
 <section class="room-detail">
     <div class="container">
 
-        <div class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Sahifa yo'li">
             <a href="{% url 'hotels:rooms' %}">Xonalar</a>
             <span>/</span>
             <span>{{ room.name }}</span>
-        </div>
+        </nav>
 
-        <div class="room-header">
-            <div>
-                <span class="room-category">{{ room.room_type }}</span>
-                <h1>{{ room.name }}</h1>
-                <p>{{ room.description }}</p>
-            </div>
+        <div class="rd-layout">
 
-            <div class="room-price">
-                <h2>${{ room.price_per_night }}</h2>
-                <span>bir kecha uchun</span>
-            </div>
-        </div>
+            <!-- ============ CHAP: RASM + VIDEO GALEREYA ============ -->
+            <div class="rd-media" id="rdMedia">
 
-        <div class="room-gallery">
-            {% for image in room.images.all %}
-            <div class="gallery-item">
-                <img src="{{ image.image.url }}" alt="{{ room.name }}">
-            </div>
-            {% empty %}
-            <div class="gallery-empty">
-                <img src="https://placehold.co/900x500?text=Rasm+mavjud+emas" alt="Rasm mavjud emas">
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="room-content">
-
-            <div class="room-main">
-                <h2>Xona haqida ma'lumot</h2>
-
-                <div class="room-features">
-                    <div class="feature">
-                        <span>👥</span>
-                        <div>
-                            <small>Mehmonlar</small>
-                            <strong>{{ room.capacity }} kishilik</strong>
-                        </div>
+                <div class="rd-stage">
+                    {% for image in room.images.all %}
+                    <div class="rd-slide">
+                        <img src="{{ image.image.url }}" alt="{{ room.name }} — rasm {{ forloop.counter }}" {% if not forloop.first %}loading="lazy" {% endif %}>
                     </div>
-
-                    <div class="feature">
-                        <span>📐</span>
-                        <div>
-                            <small>Xona maydoni</small>
-                            <strong>{{ room.size }} m²</strong>
-                        </div>
-                    </div>
-
-                    <div class="feature">
-                        <span>🛏️</span>
-                        <div>
-                            <small>Yotoq turi</small>
-                            <strong>{{ room.bed_type }}</strong>
-                        </div>
-                    </div>
-
-                    <div class="feature">
-                        <span>🏨</span>
-                        <div>
-                            <small>Kategoriya</small>
-                            <strong>{{ room.room_type }}</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="room-description">
-                    <h2>Xona tavsifi</h2>
-                    <p>{{ room.description }}</p>
-                </div>
-
-                {% if room.videos.all %}
-                <div class="room-videos">
-                    <h2>Xona videolari</h2>
+                    {% endfor %}
 
                     {% for video in room.videos.all %}
-                    <div class="video-item">
-                        {% if video.title %}
-                        <h3>{{ video.title }}</h3>
-                        {% endif %}
-
-                        <video controls width="100%">
+                    <div class="rd-slide rd-slide-video">
+                        <video controls playsinline preload="metadata">
                             <source src="{{ video.video.url }}">
                             Brauzeringiz videoni qo'llab-quvvatlamaydi.
                         </video>
                     </div>
                     {% endfor %}
+
+                    {% if not room.images.all and not room.videos.all %}
+                    <div class="rd-slide">
+                        <img src="https://placehold.co/1200x800?text=Rasm+mavjud+emas" alt="Rasm mavjud emas">
+                    </div>
+                    {% endif %}
+
+                    <button type="button" class="rd-nav rd-prev" data-dir="-1" aria-label="Oldingisi">&#8249;</button>
+                    <button type="button" class="rd-nav rd-next" data-dir="1" aria-label="Keyingisi">&#8250;</button>
+                    <span class="rd-count" aria-live="polite">1 / 1</span>
+                    <button type="button" class="rd-full" aria-label="To'liq ekran">&#x26F6;</button>
                 </div>
-                {% endif %}
+
+                <!-- Pastki qator: < kichik rasmlar > -->
+                <div class="rd-bar">
+                    <button type="button" class="rd-step" data-dir="-1" aria-label="Oldingisi">&#8249;</button>
+
+                    <div class="rd-strip">
+                        {% for image in room.images.all %}
+                        <button type="button" class="rd-thumb" aria-label="Rasm {{ forloop.counter }}">
+                            <img src="{{ image.image.url }}" alt="" loading="lazy">
+                        </button>
+                        {% endfor %}
+
+                        {% for video in room.videos.all %}
+                        <button type="button" class="rd-thumb is-video" aria-label="Video {{ forloop.counter }}">
+                            <video src="{{ video.video.url }}#t=0.5" preload="metadata" muted playsinline
+                                tabindex="-1"></video>
+                            <span class="rd-play">&#9654;</span>
+                        </button>
+                        {% endfor %}
+                    </div>
+
+                    <button type="button" class="rd-step" data-dir="1" aria-label="Keyingisi">&#8250;</button>
+                </div>
+
             </div>
 
-            <aside class="booking-card">
-                <span>Boshlang'ich narx</span>
+            <!-- ============ O'NG: MA'LUMOT + BRON ============ -->
+            <aside class="rd-info">
 
-                <h2>
-                    ${{ room.price_per_night }}
-                    <small>/ kecha</small>
-                </h2>
+                <header class="rd-head">
+                    <span class="room-category">{{ room.room_type }}</span>
+                    <h1>{{ room.name }}</h1>
+                </header>
 
-                {% if room.is_available %}
-                <span class="available">Bo'sh (Mavjud)</span>
+                <div class="rd-scroll">
+                    <div class="room-features">
+                        <div class="feature">
+                            <span>👥</span>
+                            <div><small>Mehmonlar</small><strong>{{ room.capacity }} kishilik</strong></div>
+                        </div>
+                        <div class="feature">
+                            <span>📐</span>
+                            <div><small>Maydoni</small><strong>{{ room.size }} m²</strong></div>
+                        </div>
+                        <div class="feature">
+                            <span>🛏️</span>
+                            <div><small>Yotoq turi</small><strong>{{ room.bed_type }}</strong></div>
+                        </div>
+                        <div class="feature">
+                            <span>🏨</span>
+                            <div><small>Qavat</small><strong>{{ room.floor }}-qavat</strong></div>
+                        </div>
+                    </div>
 
-                <a href="{% url 'bookings:booking' %}?room={{ room.id }}" class="booking-btn">
-                    Ushbu xonani band qilish
-                </a>
-                {% else %}
-                <span class="unavailable">Band qilingan</span>
+                    <div class="room-description">
+                        <h2>Xona tavsifi</h2>
+                        <p>{{ room.description }}</p>
+                    </div>
+                </div>
 
-                <button class="booking-btn" disabled>
-                    Hozirda band
-                </button>
-                {% endif %}
+                <!-- Bron kartasi -->
+                <div class="booking-card">
+                    <div class="bc-row">
+                        <div>
+                            <span class="bc-label">Bir kecha uchun</span>
+                            <div class="bc-price">${{ room.price_per_night }}</div>
+                        </div>
+                        {% if room.is_available %}
+                        <span class="available">● Bo'sh (mavjud)</span>
+                        {% else %}
+                        <span class="unavailable">● Band qilingan</span>
+                        {% endif %}
+                    </div>
 
-                <p>Eng yaxshi narx kafolatlanadi.</p>
+                    {% if room.is_available %}
+                    <a href="{% url 'bookings:booking' %}?room={{ room.id }}" class="booking-btn">Ushbu xonani band
+                        qilish</a>
+                    {% else %}
+                    <button class="booking-btn" disabled>Hozirda band</button>
+                    {% endif %}
+
+                    <p>Eng yaxshi narx kafolatlanadi.</p>
+                </div>
+
             </aside>
-
         </div>
     </div>
+
+    <!-- Telefon uchun pastda doim ko'rinadigan bron paneli -->
+    <div class="book-bar">
+        <div>
+            <small>Bir kecha uchun</small>
+            <strong>${{ room.price_per_night }}</strong>
+        </div>
+        {% if room.is_available %}
+        <a href="{% url 'bookings:booking' %}?room={{ room.id }}" class="booking-btn">Band qilish</a>
+        {% else %}
+        <button class="booking-btn" disabled>Hozirda band</button>
+        {% endif %}
+    </div>
 </section>
+
+<script>
+    (function () {
+        var root = document.getElementById('rdMedia');
+        if (!root) return;
+
+        var stage = root.querySelector('.rd-stage');
+        var slides = Array.prototype.slice.call(root.querySelectorAll('.rd-slide'));
+        var thumbs = Array.prototype.slice.call(root.querySelectorAll('.rd-thumb'));
+        var strip = root.querySelector('.rd-strip');
+        var count = root.querySelector('.rd-count');
+        var i = 0;
+
+        if (slides.length < 2) root.classList.add('single');
+
+        function show(n) {
+            i = (n + slides.length) % slides.length;
+
+            slides.forEach(function (s, k) {
+                var on = k === i;
+                s.classList.toggle('active', on);
+                var v = s.querySelector('video');
+                if (v && !on) v.pause();
+            });
+
+            thumbs.forEach(function (t, k) {
+                t.classList.toggle('active', k === i);
+                t.setAttribute('aria-current', k === i ? 'true' : 'false');
+            });
+
+            if (thumbs[i] && strip) {
+                strip.scrollTo({
+                    left: thumbs[i].offsetLeft - strip.clientWidth / 2 + thumbs[i].clientWidth / 2,
+                    behavior: 'smooth'
+                });
+            }
+            count.textContent = (i + 1) + ' / ' + slides.length;
+        }
+
+        root.querySelectorAll('[data-dir]').forEach(function (b) {
+            b.addEventListener('click', function () { show(i + parseInt(b.dataset.dir, 10)); });
+        });
+        thumbs.forEach(function (t, k) { t.addEventListener('click', function () { show(k); }); });
+
+        // Klaviatura: ← →
+        document.addEventListener('keydown', function (e) {
+            var tag = (e.target.tagName || '').toLowerCase();
+            if (tag === 'input' || tag === 'select' || tag === 'textarea' || tag === 'video') return;
+            if (e.key === 'ArrowLeft') show(i - 1);
+            if (e.key === 'ArrowRight') show(i + 1);
+        });
+
+        // Telefonda barmoq bilan surish
+        var x0 = null;
+        stage.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+        stage.addEventListener('touchend', function (e) {
+            if (x0 === null) return;
+            var dx = e.changedTouches[0].clientX - x0;
+            if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1));
+            x0 = null;
+        });
+
+        // To'liq ekran
+        var fs = root.querySelector('.rd-full');
+        fs.addEventListener('click', function () {
+            if (document.fullscreenElement) document.exitFullscreen();
+            else if (stage.requestFullscreen) stage.requestFullscreen();
+        });
+
+        show(0);
+    })();
+</script>
 
 {% endblock %}

@@ -15,7 +15,8 @@
   <div class="container hero-widget rise d5">
     <form class="booking-widget glass" action="{% url 'bookings:booking' %}" method="get" id="searchForm"
       aria-label="Bo'sh joylarni qidirish">
-      <div class="field"><label for="checkin">Kirish vaqti</label><input type="date" id="checkin" name="checkin" required>
+      <div class="field"><label for="checkin">Kirish vaqti</label><input type="date" id="checkin" name="checkin"
+          required>
       </div>
       <div class="field"><label for="checkout">Chiqish vaqti</label><input type="date" id="checkout" name="checkout"
           required></div>
@@ -54,87 +55,60 @@
   <div class="container">
     <div class="section-head reveal">
       <h2>Tanlangan xonalar</h2>
-      <p class="muted">Har biri o'ziga xos uslubga ega to'rt xil qulaylik turlari.</p>
     </div>
-    <div class="room-grid">
-      <article class="room-card reveal" data-category="Deluxe" data-price="220" data-guests="2" data-available="1">
-        <div class="room-img">
-          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Deluxe xona" loading="lazy" width="600" height="420">
-        </div>
-        <div class="room-body">
-          <p class="cat">Deluxe</p>
-          <h3>Deluxe xona</h3>
-          <p class="muted">Qirollik to'shagi, marmar hammom va shahar manzaralari bilan jihozlangan osoyishta xona.</p>
-          <ul class="meta">
-            <li>2 ta mehmon</li>
-            <li>38 m&sup2;</li>
-            <li>King o'lchamli yotoq</li>
-          </ul>
-          <div class="room-foot">
-            <p class="price">$220 <small>/ kecha</small></p>
+  </div>
+
+  {% if featured_rooms %}
+  <div class="marquee" style="--dur: {{ marquee_seconds }}s" aria-label="Tanlangan xonalar">
+    <div class="marquee-track">
+
+      {% for copy in "12" %}
+      <div class="marquee-group" {% if not forloop.first %}aria-hidden="true" {% endif %}>
+
+        {% for room in featured_rooms %}
+        <article class="room-card">
+
+          <a class="room-img" href="{% url 'hotels:room_detail' room.pk %}" {% if not forloop.parentloop.first %}tabindex="-1" {% endif %}>
+            {% with first_image=room.images.all.0 %}
+            {% if first_image %}
+            <img src="{{ first_image.image.url }}" alt="{{ room.name }}" loading="lazy" width="600" height="300">
+            {% else %}
+            <img src="https://placehold.co/600x420?text=Rasm+yo%27q" alt="Rasm mavjud emas" width="600" height="300">
+            {% endif %}
+            {% endwith %}
+          </a>
+
+          <div class="room-body">
+            {% if room.is_available %}
+            <span class="tag tag-available">Bo'sh</span>
+            {% else %}
+            <span class="tag tag-booked">Band</span>
+            {% endif %}
+
+            <h3>{{ room.name }}</h3>
+
+            <div class="room-foot">
+              <p class="price">${{ room.price_per_night|floatformat:"-2" }} <small>/ kecha</small></p>
+              <a class="btn btn-line" href="{% url 'hotels:room_detail' room.pk %}" {% if not forloop.parentloop.first %}tabindex="-1" {% endif %}>Batafsil</a>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="room-card reveal" data-category="Suite" data-price="390" data-guests="3" data-available="1">
-        <div class="room-img">
-          <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Lyuks xona" loading="lazy" width="600" height="420">
-        </div>
-        <div class="room-body">
-          <p class="cat">Lyuks</p>
-          <h3>Mansabdorlar lyuksi (Executive Suite)</h3>
-          <p class="muted">Uzoqroq qolish uchun alohida yashash maydoni, ish stoli va zalga kirish imkoniyati.</p>
-          <ul class="meta">
-            <li>3 ta mehmon</li>
-            <li>62 m&sup2;</li>
-            <li>King yotoq + divan-krovat</li>
-          </ul>
-          <div class="room-foot">
-            <p class="price">$390 <small>/ kecha</small></p>
-          </div>
-        </div>
-      </article>
-      <article class="room-card reveal" data-category="Suite" data-price="980" data-guests="4" data-available="0">
-        <div class="room-img">
-          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Prezident Suite" loading="lazy" width="600" height="420">
-          <span class="tag">Band qilingan</span>
-        </div>
-        <div class="room-body">
-          <p class="cat">Suite</p>
-          <h3>Prezidentlik lyuksi</h3>
-          <p class="muted">Xususiy terrasasi, ovqatlanish xonasi va xizmatkor xizmatiga ega yuqori qavatdagi qarorgohimiz.</p>
-          <ul class="meta">
-            <li>4 ta mehmon</li>
-            <li>140 m&sup2;</li>
-            <li>Ikkita king yotoq</li>
-          </ul>
-          <div class="room-foot">
-            <p class="price">$980 <small>/ kecha</small></p>
-          </div>
-        </div>
-      </article>
-      <article class="room-card reveal" data-category="Family" data-price="310" data-guests="5" data-available="1">
-        <div class="room-img">
-            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&amp;fit=crop&amp;w=1200&amp;q=70"
-            alt="Oila uchun hashmatli xona" loading="lazy" width="600" height="420">
-        </div>
-        <div class="room-body">
-          <p class="cat">Oila</p>
-          <h3>Oila uchun hashamatli xona</h3>
-          <p class="muted">Butun oila uchun yetarli joyga ega ikkita ulangan xona va bolalar uchun qulayliklar to'plami.</p>
-          <ul class="meta">
-            <li>5 ta mehmon</li>
-            <li>75 m&sup2;</li>
-            <li>King + ikkita bir kishilik yotoq</li>
-          </ul>
-          <div class="room-foot">
-            <p class="price">$310 <small>/ kecha</small></p>
-          </div>
-        </div>
-      </article>
+
+        </article>
+        {% endfor %}
+
+      </div>
+      {% endfor %}
+
     </div>
+  </div>
+  {% else %}
+  <p class="center muted">Hozircha xonalar mavjud emas.</p>
+  {% endif %}
+
+  <div class="container">
+    <p class="center" style="margin-top:1rem">
+      <a class="btn btn-gold" href="{% url 'hotels:rooms' %}">To'liq xonalarni ko'rish</a>
+    </p>
   </div>
 </section>
 
@@ -210,37 +184,41 @@
     <div class="section-head reveal">
       <h2>Foto galereya</h2>
     </div>
-    <div class="gallery-grid">
-      <button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="1-rasmni ochish">
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Mehmonxona rasmi 1" loading="lazy">
-      </button>
-      <button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="2-rasmni ochish">
-        <img
-          src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Mehmonxona rasmi 2" loading="lazy">
-      </button>
-      <button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="3-rasmni ochish">
-        <img
-          src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Mehmonxona rasmi 3" loading="lazy">
-      </button>
-      <button class="g-item reveal"
-        data-full="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-        aria-label="4-rasmni ochish">
-        <img
-          src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&amp;fit=crop&amp;w=900&amp;q=70"
-          alt="Mehmonxona rasmi 4" loading="lazy">
-      </button>
+  </div>
+
+  {% if gallery_rows %}
+
+  {# 1-qator o'ngga, 2-qator chapga harakatlanadi (qatorlar view'dan keladi) #}
+  {% for row in gallery_rows %}
+  <div class="marquee marquee-photos{% if row.reverse %} reverse{% endif %}" style="--dur: {{ row.seconds }}s" aria-label="Foto galereya">
+    <div class="marquee-track">
+
+      {# Uzluksiz aylanish uchun guruh 2 marta chiqariladi; ikkinchisi faqat ko'rinish uchun #}
+      {% for copy in "12" %}
+      <div class="marquee-group" {% if not forloop.first %}aria-hidden="true" {% endif %}>
+
+        {% for image in row.images %}
+        <button type="button" class="g-item" data-full="{{ image.image.url }}"
+          aria-label="{{ forloop.counter }}-rasmni ochish" {% if not forloop.parentloop.first %}tabindex="-1" {% endif %}>
+          <img src="{{ image.image.url }}" alt="{{ image.room.name }}" loading="lazy" width="600" height="450">
+        </button>
+        {% endfor %}
+
+      </div>
+      {% endfor %}
+
     </div>
-    <br><br>
-    <p class="center"><a class="btn btn-line" href="{% url 'hotels:gallery' %}">To'liq galereyani ko'rish</a></p>
+  </div>
+  {% endfor %}
+
+  {% else %}
+  <p class="center muted">Hozircha rasmlar mavjud emas.</p>
+  {% endif %}
+
+  <div class="container">
+    <p class="center" style="margin-top:1.2rem">
+      <a class="btn btn-line" href="{% url 'hotels:gallery' %}">To'liq galereyani ko'rish</a>
+    </p>
   </div>
 </section>
 

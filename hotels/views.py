@@ -1,3 +1,5 @@
+from math import ceil
+
 from django.contrib import messages
 from django.db.models import Exists, OuterRef
 from django.shortcuts import get_object_or_404, redirect, render
@@ -21,7 +23,35 @@ def home_page(request):
 
         return redirect("hotels:home")
 
-    return render(request, "index.html")
+    rooms = list(
+        Room.objects.select_related("hotel")
+        .prefetch_related("images")
+        .order_by("-created_at")[:7]
+    )
+    if rooms and len(rooms) < 7:
+        rooms = rooms * ceil(7 / len(rooms))
+
+    gallery_images = list(
+        RoomImage.objects.select_related("room").order_by("-created_at")[:10]
+    )
+    if gallery_images and len(gallery_images) < 8:
+        gallery_images = gallery_images * ceil(8 / len(gallery_images))
+
+    half = len(gallery_images) // 2
+    gallery_rows = []
+    if gallery_images:
+        gallery_rows = [
+            {"images": gallery_images, "reverse": True,
+             "seconds": max(30, len(gallery_images) * 5)},
+            {"images": gallery_images[half:] + gallery_images[:half], "reverse": False,
+             "seconds": max(30, len(gallery_images) * 6)},
+        ]
+
+    return render(request, "index.html", {
+        "featured_rooms": rooms,
+        "marquee_seconds": max(30, len(rooms) * 7),
+        "gallery_rows": gallery_rows,
+    })
 
 
 def rooms_page(request):

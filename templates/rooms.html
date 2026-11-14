@@ -7,6 +7,12 @@
 <section class="section">
   <div class="container">
 
+    <!-- FILTRLAR TUGMASI (faqat telefonda ko'rinadi) -->
+    <button type="button" class="filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters">
+      <span>⚙ Filtrlar va saralash</span>
+      <span class="ft-arrow" aria-hidden="true">▾</span>
+    </button>
+
     <!-- FILTRLAR -->
     <form class="filters" id="filters" aria-label="Xonalarni filtrlash">
 
@@ -18,13 +24,6 @@
           <option value="{{ room_type|lower }}">{{ room_type }}</option>
           {% endfor %}
         </select>
-      </div>
-
-      <div class="field">
-        <label for="fPrice">
-          Maksimal narx: $<output id="fPriceOut">1000</output>
-        </label>
-        <input type="range" id="fPrice" min="0" max="1000" step="5" value="1000">
       </div>
 
       <div class="field">
@@ -45,6 +44,13 @@
           <option value="asc">Arzondan qimmatga</option>
           <option value="desc">Qimmatdan arzinga</option>
         </select>
+      </div>
+
+      <div class="field">
+        <label for="fPrice">
+          Maksimal narx: $<output id="fPriceOut">1000</output>
+        </label>
+        <input type="range" id="fPrice" min="0" max="1000" step="5" value="1000">
       </div>
 
       <label class="check">
@@ -69,9 +75,9 @@
 
           {% with first_image=room.images.first %}
           {% if first_image %}
-          <img src="{{ first_image.image.url }}" alt="{{ room.name }}" loading="lazy" width="600" height="420">
+          <img src="{{ first_image.image.url }}" alt="{{ room.name }}" loading="lazy" width="600" height="300">
           {% else %}
-          <img src="https://placehold.co/600x420?text=Rasm+yo%27q" alt="Rasm mavjud emas">
+          <img src="https://placehold.co/600x300?text=Rasm+yo%27q" alt="Rasm mavjud emas">
           {% endif %}
           {% endwith %}
 
@@ -81,8 +87,6 @@
 
         </a>
 
-
-        <!-- XONA MA'LUMOTLARI -->
         <div class="room-body">
 
           {% if room.is_booked_today %}
@@ -98,10 +102,6 @@
               {{ room.name }}
             </a>
           </h3>
-
-          <p class="muted">
-            {{ room.description|truncatewords:20 }}
-          </p>
 
           <ul class="meta">
             <li>{{ room.capacity }} ta mehmon</li>
@@ -155,5 +155,24 @@
 
   </div>
 </section>
+
+<script>
+/* Telefonda filtr panelini ochish/yopish (kompyuterda panel doim ochiq) */
+(function () {
+  var f = document.getElementById('filters');
+  var b = document.getElementById('filtersToggle');
+  if (!f || !b) return;
+  var mq = window.matchMedia('(max-width:700px)');
+
+  function set(open) {
+    f.classList.toggle('is-collapsed', !open);
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  set(!mq.matches);                       // telefonda yopiq, kompyuterda ochiq
+  b.addEventListener('click', function () { set(f.classList.contains('is-collapsed')); });
+  mq.addEventListener('change', function (e) { set(!e.matches); });
+})();
+</script>
 
 {% endblock content %}

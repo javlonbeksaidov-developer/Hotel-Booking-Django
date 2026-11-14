@@ -1,65 +1,169 @@
-/* Buttons, cards, forms, widgets */
-.btn{display:inline-block;padding:.9em 1.9em;font:400 .78rem var(--sans);letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--gold);cursor:pointer;transition:background .35s,color .35s,transform .35s var(--ease);text-align:center}
-.btn-gold{background:var(--gold);color:#111}.btn-gold:hover{background:var(--white);border-color:var(--white)}
-.btn-line{background:transparent;color:var(--white)}.btn-line:hover{background:var(--gold);color:#111}
-.btn-row{display:flex;flex-wrap:wrap;gap:.8rem}
-.glass{background:rgba(15,15,17,.62);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line)}
-.booking-widget{display:grid;grid-template-columns:repeat(5,1fr) auto;gap:1rem;padding:1.2rem 1.4rem;align-items:end}
-.field{display:flex;flex-direction:column;gap:.35rem}
-.field label,.check{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
-input,select,textarea{width:100%;background:transparent;color:var(--white);border:0;border-bottom:1px solid var(--line);padding:.6em .1em;font:inherit;font-size:.92rem;color-scheme:dark;border-radius:0}
-input:focus,select:focus,textarea:focus{outline:0;border-color:var(--gold)}
+/* ==========================================================================
+   COMPONENTS.CSS — tugmalar, kartalar, formalar, vidjetlar
+   ========================================================================== */
+
+/* ---------- Tugmalar ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:44px;padding:.8em 1.5em;font:700 .78rem var(--sans);letter-spacing:.1em;text-transform:uppercase;border:0;border-radius:var(--r);cursor:pointer;overflow:hidden;text-align:center;transition:transform .35s var(--ease),box-shadow .35s,background .35s,color .35s}
+.btn::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);transition:transform .7s var(--ease)}
+.btn:hover::after{transform:translateX(120%)}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn-gold{background:var(--grad-gold);color:#1b1033;box-shadow:0 8px 22px rgba(255,154,31,.3)}
+.btn-gold:hover{box-shadow:0 12px 32px rgba(255,154,31,.5)}
+.btn-line{background:transparent;color:var(--white);box-shadow:inset 0 0 0 1.5px var(--turq)}
+.btn-line:hover{background:var(--turq);color:#08233a;box-shadow:0 10px 26px rgba(25,211,197,.35)}
+.btn-row{display:flex;flex-wrap:wrap;gap:.7rem}
+
+/* ---------- Shisha panel ---------- */
+.glass{background:rgba(26,20,64,.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+
+/* ---------- Bron vidjeti ---------- */
+.booking-widget{display:grid;grid-template-columns:repeat(5,1fr) auto;gap:.8rem;padding:1rem 1.2rem;align-items:end}
+
+/* ---------- Forma elementlari ---------- */
+.field{display:flex;flex-direction:column;gap:.3rem;min-width:0}
+.field label,.check{font-size:.74rem;font-weight:700;letter-spacing:.05em;color:var(--turq)}
+input,select,textarea{width:100%;background:rgba(255,255,255,.05);color:var(--white);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:.65em .85em;font:inherit;font-size:.92rem;color-scheme:dark;transition:border-color .25s,box-shadow .25s,background .25s}
+input::placeholder,textarea::placeholder{color:#7f7aa8}
+input:hover,select:hover,textarea:hover{border-color:rgba(25,211,197,.5)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--turq);background:rgba(25,211,197,.07);box-shadow:0 0 0 3px rgba(25,211,197,.2)}
 select option{background:var(--char)}
-.img-frame{position:relative}.img-frame::after{content:"";position:absolute;inset:18px -18px -18px 18px;border:1px solid var(--line);z-index:-1}
-.img-frame img{width:100%;aspect-ratio:4/3;object-fit:cover}
-.room-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.6rem}
-.room-card{background:var(--char2);border:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;transition:transform .5s var(--ease),border-color .4s}
-.room-card:hover{transform:translateY(-6px);border-color:var(--line)}
-.room-img{position:relative;overflow:hidden;display:block}
-.room-img img{width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform .9s var(--ease)}
-.room-card:hover .room-img img{transform:scale(1.06)}
-.tag{position:absolute;top:1rem;left:1rem;background:rgba(0,0,0,.75);padding:.2em .8em;font-size:.7rem;letter-spacing:.1em}
-.room-body{padding:1.4rem;display:flex;flex-direction:column;flex:1}
-.cat{font-size:.72rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.4em}
-.room-body h3{margin-bottom:.3em}.room-body .muted{font-size:.88rem}
-.meta{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin:0 0 1rem;padding:0;font-size:.78rem;color:var(--beige)}
-.room-foot{margin-top:auto}.price{font:500 1.8rem var(--serif);margin-bottom:.6rem;color:var(--gold)}.price small{font:300 .8rem var(--sans);color:var(--muted)}
-.room-foot .btn{padding:.75em 1.1em;font-size:.7rem}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.service{background:var(--black);padding:2.5rem 2rem;transition:background .4s}.service:hover{background:var(--char)}
-.service svg{color:var(--gold);margin-bottom:1rem}
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:.8rem}
-.g-item{padding:0;border:0;background:none;overflow:hidden;cursor:zoom-in}
-.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}.g-item:hover img{transform:scale(1.08)}
-.slider{position:relative;text-align:center;min-height:260px}
+textarea{resize:vertical;min-height:110px}
+input[type=checkbox],input[type=radio]{width:auto;accent-color:var(--saffron)}
+input[type=range]{accent-color:var(--saffron);padding:0;border:0;background:none;box-shadow:none}
+.form{display:grid;gap:1.1rem}
+.form-msg{margin-top:.8rem;color:var(--saffron);min-height:1.5em;font-weight:600}
+.check{display:flex;gap:.5rem;align-items:center;cursor:pointer}
+
+/* ---------- Rasm ramkasi (peshtoq/kamon) ---------- */
+.img-frame{position:relative}
+.img-frame::after{content:"";position:absolute;inset:16px -16px -16px 16px;border:1.5px solid var(--saffron);border-radius:var(--r-lg) var(--r-lg) var(--r-lg) 160px;z-index:-1;opacity:.7}
+.img-frame img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r-lg) var(--r-lg) var(--r-lg) 160px}
+
+/* ---------- Xona kartalari (bosh sahifa) ---------- */
+.room-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem}
+.room-card{display:flex;flex-direction:column;padding:.6rem;background:linear-gradient(180deg,var(--char2),var(--char));border:1px solid var(--line-soft);border-radius:var(--r-lg);overflow:hidden;transition:transform .45s var(--ease),border-color .35s,box-shadow .45s}
+.room-card:hover{transform:translateY(-6px);border-color:var(--turq);box-shadow:0 18px 40px rgba(25,211,197,.16),0 0 0 1px rgba(25,211,197,.25)}
+.room-img{position:relative;overflow:hidden;display:block;border-radius:50% 50% 12px 12px / 34% 34% 12px 12px}
+.room-img img{width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform .8s var(--ease)}
+.room-card:hover .room-img img{transform:scale(1.07)}
+.tag{display:inline-block;background:var(--grad-tile);color:#fff;padding:.2em .85em;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.04em;line-height:1.6}
+/* Rasm ustidagi belgi ("Band qilingan") — rasm ichida pastki-chapda */
+.room-img .tag{position:absolute;bottom:.7rem;left:.7rem;background:var(--grad-ruby)}
+/* Karta matni ichidagi holat belgisi ("Bo'sh" / "Bron qilingan") — oddiy oqimda */
+.room-body .tag{position:static;align-self:flex-start;margin-bottom:.6rem}
+.tag-available{background:linear-gradient(135deg,#3ddc97,#19d3c5);color:#06302a}
+.tag-booked{background:var(--grad-ruby);color:#fff}
+.room-body{display:flex;flex-direction:column;flex:1;padding:1rem .7rem .7rem}
+.cat{font-size:.74rem;font-weight:700;letter-spacing:.12em;color:var(--turq);margin-bottom:.35em}
+.room-body h3{margin-bottom:.25em}
+.room-body .muted{font-size:.88rem}
+.meta{list-style:none;display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 .9rem;padding:0;font-size:.76rem}
+.meta li{padding:.15em .7em;border-radius:999px;background:rgba(255,255,255,.07);color:var(--beige)}
+.room-foot{margin-top:auto}
+.price{font:400 1.7rem var(--serif);margin-bottom:.5rem;color:var(--saffron)}
+.price small{font:500 .8rem var(--sans);color:var(--muted)}
+.room-foot .btn{width:100%;padding:.7em 1em;font-size:.72rem}
+
+/* ---------- Xizmatlar ---------- */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.service{padding:1.6rem 1.4rem;background:var(--char);border:1px solid var(--line-soft);border-radius:var(--r-lg);transition:transform .4s var(--ease),background .4s,border-color .4s,box-shadow .4s}
+.service:hover{transform:translateY(-5px);background:linear-gradient(160deg,var(--char2),var(--char));border-color:var(--saffron);box-shadow:0 14px 34px rgba(255,182,39,.14)}
+.service svg{width:46px;height:46px;padding:11px;margin-bottom:.9rem;border-radius:14px;background:rgba(25,211,197,.14);color:var(--turq);transition:background .35s,color .35s,transform .35s var(--ease)}
+.service:hover svg{background:var(--turq);color:#08233a;transform:rotate(-6deg) scale(1.05)}
+.service h3{font-size:1.3rem;margin-bottom:.35em}
+.service p{margin:0}
+
+/* Telefon: 2 tadan, ixcham kartalar */
+@media (max-width:700px){
+  .services-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+  .service{padding:.9rem .8rem;border-radius:16px}
+  .service svg{width:38px;height:38px;padding:8px;margin-bottom:.6rem;border-radius:12px}
+  .service h3{font-size:1rem;line-height:1.2;margin-bottom:.3em;overflow-wrap:anywhere}
+  .service p{font-size:.78rem;line-height:1.5}
+}
+
+/* ---------- Galereya (asosiy) ---------- */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));grid-auto-rows:200px;gap:.7rem}
+.g-item{padding:0;border:0;background:none;overflow:hidden;cursor:zoom-in;border-radius:var(--r)}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease),filter .4s}
+.g-item:hover img{transform:scale(1.08);filter:saturate(1.25) brightness(1.05)}
+
+/* ---------- Fikrlar slayderi ---------- */
+.slider{position:relative;text-align:center;min-height:240px}
 .slide{position:absolute;inset:0 0 auto 0;margin:0;opacity:0;visibility:hidden;transition:opacity .8s}
 .slide.active{position:relative;opacity:1;visibility:visible}
-.slide blockquote{font:italic 400 clamp(1.4rem,3vw,2rem)/1.4 var(--serif);margin:0 0 1rem}
-.slide figcaption{letter-spacing:.15em;font-size:.8rem;color:var(--beige)}
-.stars{color:var(--gold);letter-spacing:.3em;margin:0 0 1rem}
-.dots{display:flex;justify-content:center;gap:.6rem;margin-top:2rem}
-.dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--gold);background:none;padding:0;cursor:pointer}.dot.active{background:var(--gold)}
-.map-box{border:1px solid var(--line);aspect-ratio:4/3}.map-box.small{aspect-ratio:16/9;margin-top:1.5rem}
-.map-box iframe{width:100%;height:100%;border:0;filter:grayscale(1) invert(.92) contrast(.85)}
-.newsletter{background:linear-gradient(var(--black),var(--char))}
-.news-form{display:flex;gap:1rem;margin:1.5rem auto 0;max-width:560px}.news-form input{border:1px solid var(--line);padding:.9em 1em}
-.form-msg{margin-top:1rem;color:var(--gold);min-height:1.5em}
-.form{display:grid;gap:1.4rem}
-.filters{display:flex;flex-wrap:wrap;gap:1.5rem 2rem;align-items:flex-end;margin-bottom:2.5rem;padding:1.4rem;border:1px solid var(--line)}
-.filters .field{min-width:160px;flex:1}.check{display:flex;gap:.5rem;align-items:center;cursor:pointer}.check input{width:auto}
-input[type=range]{accent-color:var(--gold);padding:0;border:0}
-.card-box{border:1px solid var(--line);padding:2rem}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:4rem;text-align:center}
-.stats strong{display:block;font:500 3rem var(--serif);color:var(--gold)}.stats span{font-size:.8rem;letter-spacing:.12em;color:var(--muted)}
-.spec{list-style:none;padding:0;margin:1.5rem 0}.spec li{display:flex;justify-content:space-between;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--line)}.spec span{color:var(--gold);letter-spacing:.1em;font-size:.8rem}
-.total{font:500 1.5rem var(--serif);color:var(--gold)}
-.toast{position:fixed;top:5.5rem;left:50%;transform:translateX(-50%);z-index:150;background:var(--gold);color:#111;padding:1em 1.6em;max-width:90%;animation:toast 6s forwards}
-.lightbox{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.93);display:none;align-items:center;justify-content:center;padding:2rem}
-.lightbox.open{display:flex}.lightbox img{max-height:88vh;max-width:92vw;object-fit:contain}
-.lb-btn{position:absolute;background:none;border:1px solid var(--line);color:var(--white);width:46px;height:46px;font-size:1.4rem;cursor:pointer}
-.lb-close{top:1.5rem;right:1.5rem}.lb-prev{left:1.5rem}.lb-next{right:1.5rem}
-.to-top{position:fixed;right:1.5rem;bottom:1.5rem;width:46px;height:46px;border:1px solid var(--gold);background:rgba(11,11,12,.8);color:var(--gold);cursor:pointer;opacity:0;visibility:hidden;transition:.4s;z-index:90}
-.to-top.show{opacity:1;visibility:visible}
+.slide blockquote{font:400 clamp(1.25rem,2.8vw,1.8rem)/1.45 var(--serif);margin:0 0 1rem;color:var(--ivory)}
+.slide figcaption{letter-spacing:.1em;font-size:.82rem;font-weight:600;color:var(--beige)}
+.stars{color:var(--saffron);letter-spacing:.3em;margin:0 0 .8rem;text-shadow:0 0 14px rgba(255,182,39,.5)}
+.dots{display:flex;justify-content:center;gap:.6rem;margin-top:1.5rem}
+.dot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--saffron);background:none;padding:0;cursor:pointer;transition:transform .3s,background .3s}
+.dot:hover{transform:scale(1.25)}
+.dot.active{background:var(--saffron)}
+
+/* ---------- Xarita ---------- */
+.map-box{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3}
+.map-box.small{aspect-ratio:16/9;margin-top:1.2rem}
+.map-box iframe{width:100%;height:100%;border:0;filter:hue-rotate(185deg) saturate(.7) invert(.9) contrast(.85)}
+
+/* ---------- Yangiliklar ---------- */
+.newsletter{background:radial-gradient(45% 90% at 100% 0%,rgba(255,182,39,.2),transparent 60%),radial-gradient(50% 100% at 0% 100%,rgba(25,211,197,.22),transparent 60%),linear-gradient(135deg,#2b1c7c,#1a1440 55%,#0f3b66)}
+.news-form{display:flex;gap:.8rem;margin:1.2rem auto 0;max-width:560px}
+
+/* ---------- Filtrlar ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:1rem 1.4rem;align-items:flex-end;margin-bottom:1.8rem;padding:1.1rem;background:var(--char);border:1px solid var(--line-soft);border-radius:var(--r-lg)}
+.filters .field{min-width:150px;flex:1}
+.card-box{background:var(--char);border:1px solid var(--line-soft);border-radius:var(--r-lg);padding:1.6rem}
+
+/* ---------- Statistika ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-top:3rem;text-align:center}
+.stats strong{display:block;font:400 clamp(2.2rem,5vw,3rem) var(--serif);background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stats span{font-size:.82rem;font-weight:600;letter-spacing:.08em;color:var(--muted)}
+
+/* ---------- Spetsifikatsiya / jami ---------- */
+.spec{list-style:none;padding:0;margin:1.2rem 0}
+.spec li{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line-soft)}
+.spec span{color:var(--turq);font-weight:700;letter-spacing:.05em;font-size:.82rem}
+.total{font:400 1.5rem var(--serif);color:var(--saffron)}
+
+/* ---------- Toast, lightbox, tepaga, loader ---------- */
+.toast{position:fixed;top:5rem;left:50%;transform:translateX(-50%);z-index:150;background:var(--grad-gold);color:#1b1033;font-weight:700;padding:.9em 1.5em;border-radius:var(--r);box-shadow:0 14px 40px rgba(255,154,31,.4);max-width:90%;animation:toast 6s forwards}
+.lightbox{position:fixed;inset:0;z-index:300;background:rgba(10,7,28,.95);display:none;align-items:center;justify-content:center;padding:1.5rem}
+.lightbox.open{display:flex}
+.lightbox img{max-height:88vh;max-width:92vw;object-fit:contain;border-radius:var(--r)}
+.lb-btn{position:absolute;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:50%;color:var(--white);width:46px;height:46px;font-size:1.4rem;cursor:pointer;transition:background .3s,color .3s}
+.lb-btn:hover{background:var(--saffron);color:#1b1033}
+.lb-close{top:1rem;right:1rem}.lb-prev{left:1rem}.lb-next{right:1rem}
+.to-top{position:fixed;right:1.2rem;bottom:1.2rem;width:46px;height:46px;border:0;border-radius:50%;background:var(--grad-gold);color:#1b1033;font-weight:800;cursor:pointer;box-shadow:0 8px 22px rgba(255,154,31,.4);opacity:0;visibility:hidden;transform:translateY(10px);transition:.4s;z-index:90}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{transform:translateY(-3px)}
 .loader{position:fixed;inset:0;z-index:500;background:var(--black);display:flex;align-items:center;justify-content:center;transition:opacity .7s,visibility .7s}
-.loader span{font:500 2rem var(--serif);letter-spacing:.4em;color:var(--gold);animation:pulse 1.4s infinite}
+.loader span{font:400 1.8rem var(--serif);letter-spacing:.4em;color:var(--saffron);animation:pulse 1.4s infinite}
 .loader.done{opacity:0;visibility:hidden}
+
+/* ---------- Xonalar lentasi: bitta gorizontal qatorda sekin harakatlanadi ---------- */
+.marquee{--dur:60s;position:relative;overflow:hidden;padding:.9rem 0 1.4rem;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.marquee-track{display:flex;width:max-content;animation:marquee var(--dur) linear infinite;will-change:transform}
+/* Kursor, fokus yoki bosish paytida to'xtaydi — kartani ochish oson bo'ladi */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track,
+.marquee:active .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;gap:1.2rem;padding-right:1.2rem}
+.marquee .room-card{flex:0 0 clamp(250px,78vw,310px)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* Harakatni kamaytirish yoqilgan bo'lsa: lenta qo'lda suriladigan bo'ladi */
+@media (prefers-reduced-motion:reduce){
+  .marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+  .marquee-track{animation:none}
+  .marquee-group[aria-hidden="true"]{display:none}
+}
+
+/* ---------- Foto galereya lentasi (xonalar lentasiga teskari yo'nalishda) ---------- */
+.marquee.reverse .marquee-track{animation-direction:reverse}
+.marquee-photos .marquee-group{gap:.8rem;padding-right:.8rem}
+.marquee-photos .g-item{flex:0 0 clamp(210px,62vw,300px);aspect-ratio:4/3;border-radius:var(--r-lg);border:1px solid var(--line-soft)}
+.marquee-photos .g-item:hover{border-color:var(--saffron)}
+
+/* Ikki qatorli lenta: qatorlar orasi ixcham */
+.marquee + .marquee{padding-top:0}
