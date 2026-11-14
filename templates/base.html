@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="uz">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{hotel.name}}</title>
-    <meta name="description" content="Five-star luxury hotel in Samarkand. Book rooms, suites, dining and spa.">
+    <meta name="description" content="Samarqanddagi besh yulduzli hashamatli mehmonxona. Xonalar, lyuks xonalar, restoran va spa xizmatlarini bron qiling.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -16,77 +16,17 @@
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <style>
-        .navbar-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #8b5cf6;
-    cursor: pointer;
-    transition: .3s ease;
-}
-
-.navbar-avatar:hover {
-    transform: scale(1.08);
-    border-color: #a78bfa;
-}
-
-.messages-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
-
-.message {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-.message-success {
-    background: #d1e7dd;
-    color: #0f5132;
-}
-
-.message-error {
-    background: #f8d7da;
-    color: #842029;
-}
-
-.message-warning {
-    background: #fff3cd;
-    color: #664d03;
-}
-
-.message-info {
-    background: #cff4fc;
-    color: #055160;
-}
-
-.message button {
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-size: 22px;
-    cursor: pointer;
-}
-    </style>
 </head>
 
 <body class="page-home">
     <div class="loader" id="loader" aria-hidden="true"><span>Saidov Javlon</span></div>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">Asosiy kontentga o'tish</a>
 
     <header class="site-header " id="header">
         <div class="container nav">
             <a class="brand" href="{% url 'hotels:home' %}" aria-label="{{hotel.name}}">
                 <img src="{{ hotel.image.url }}"
-                    alt="Hotel"
+                    alt="Mehmonxona"
                     width="34"
                     height="34"
                     style="border-radius: 50%; object-fit: cover;"
@@ -94,38 +34,38 @@
                 <span>{{hotel.name}}</span>
             </a>
 
-            <nav id="menu" class="menu" aria-label="Main navigation">
+            <nav id="menu" class="menu" aria-label="Asosiy navigatsiya">
                 <a href="{% url 'hotels:home' %}" 
                 class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}" 
                 {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>
-                Home
+                Bosh sahifa
                 </a>
 
 
                 <a href="{% url 'hotels:rooms' %}" 
                 class="{% if request.resolver_match.url_name == 'rooms' %}active{% endif %}" 
                 {% if request.resolver_match.url_name == 'rooms' %}aria-current="page"{% endif %}>
-                Rooms
+                Xonalar
                 </a>
 
 
                 <a href="{% url 'hotels:gallery' %}" 
                 class="{% if request.resolver_match.url_name == 'gallery' %}active{% endif %}" 
                 {% if request.resolver_match.url_name == 'gallery' %}aria-current="page"{% endif %}>
-                Gallery
+                Galereya
                 </a>
 
                 <a href="{% url 'hotels:contact' %}" 
                 class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}" 
                 {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>
-                Contact
+                Aloqa
                 </a>
 
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                     <a href="{% url 'bookings:booking_send_email' %}"
                     class="{% if request.resolver_match.url_name == 'booking_send_email' %}active{% endif %}"
                     {% if request.resolver_match.url_name == 'booking_send_email' %}aria-current="page"{% endif %}>
-                        Booking
+                        Buyurtmalar
                     </a>
                 {% endif %}
 
@@ -134,18 +74,18 @@
                     <a href="{% url 'users:profile' %}"
                     class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
                     {% if request.resolver_match.url_name == 'profile' %}aria-current="page"{% endif %}
-                    title="My Profile">
+                    title="Mening profilim">
 
                         {% if request.user.profile.avatar %}
                             <img
                                 src="{{ request.user.profile.avatar.url }}"
-                                alt="Profile"
+                                alt="Profil"
                                 class="navbar-avatar"
                             >
                         {% else %}
                             <img
                                 src="https://ui-avatars.com/api/?name={{ request.user.username|urlencode }}&background=27272a&color=fff"
-                                alt="Profile"
+                                alt="Profil"
                                 class="navbar-avatar"
                             >
                         {% endif %}
@@ -157,7 +97,7 @@
                     <a href="{% url 'users:login' %}"
                     class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}"
                     {% if request.resolver_match.url_name == 'login' %}aria-current="page"{% endif %}>
-                        Login
+                        Kirish
                     </a>
 
                 {% endif %}
@@ -172,7 +112,7 @@
 
             <div class="nav-right">
                 <a class="btn btn-gold desktop-only" href="{% url 'bookings:booking' %}">Buyurtma berish</a>
-                <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"
+                <button class="burger" id="burger" aria-label="Menuni ochish" aria-expanded="false"
                     aria-controls="menu"><span></span><span></span><span></span></button>
             </div>
         </div>
@@ -191,15 +131,15 @@
                 <p class="muted">{{hotel.description}}</p>
             </div>
             <div>
-                <h4>Explore</h4>
+                <h4>Sahifalar</h4>
                 <ul class="plain">
-                    <li><a href="{% url 'hotels:rooms' %}">Rooms &amp; Suites</a></li>
-                    <li><a href="{% url 'hotels:gallery' %}">Gallery</a></li>
-                    <li><a href="{% url 'bookings:booking' %}">Book a stay</a></li>
+                    <li><a href="{% url 'hotels:rooms' %}">Xonalar va Lyuslar</a></li>
+                    <li><a href="{% url 'hotels:gallery' %}">Galereya</a></li>
+                    <li><a href="{% url 'bookings:booking' %}">Joy band qilish</a></li>
                 </ul>
             </div>
             <div>
-                <h4>Contact</h4>
+                <h4>Bog'lanish</h4>
                 <ul class="plain muted">
                     <li>{{hotel.address}}, {{hotel.city}}, {{hotel.country}}</li>
                     <li><a href="tel:+{{hotel.phone_number}}">{{hotel.phone_number}}</a></li>
@@ -207,7 +147,7 @@
                 </ul>
             </div>
             <div>
-                <h4>Follow</h4>
+                <h4>Ijtimoiy tarmoqlar</h4>
                 <ul class="plain">
                     <li><a href="#" rel="noopener" target="_blank">Instagram</a></li>
                     <li><a href="#" rel="noopener" target="_blank">Facebook</a></li>
@@ -218,7 +158,7 @@
         <div class="container copy">&copy; {{ hotel.created_at|date:"Y" }} {{hotel.name}}</div>
     </footer>
 
-    <button class="to-top" id="toTop" aria-label="Back to top">&uarr;</button>
+    <button class="to-top" id="toTop" aria-label="Yuqoriga qaytish">&uarr;</button>
     <script src="{% static 'js/navigation.js' %}" defer></script>
     <script src="{% static 'js/animations.js' %}" defer></script>
     <script src="{% static 'js/main.js' %}" defer></script>

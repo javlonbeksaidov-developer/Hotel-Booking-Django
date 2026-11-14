@@ -57,3 +57,62 @@ p{margin:0 0 1.2em}
 .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr;gap:2.5rem}
 .footer a:hover{color:var(--gold)}
 .copy{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);font-size:.8rem;color:var(--muted)}
+
+.navbar-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #8b5cf6;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.navbar-avatar:hover {
+    transform: scale(1.08);
+    border-color: #a78bfa;
+}
+
+.messages-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.message-success {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.message-error {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.message-warning {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.message-info {
+    background: #cff4fc;
+    color: #055160;
+}
+
+.message button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 22px;
+    cursor: pointer;
+}

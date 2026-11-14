@@ -30,14 +30,17 @@
     if (!a || !b) return;
     var nights = Math.round((new Date(b) - new Date(a)) / 864e5);
     if (nights < 1) {
-      totalEl.textContent = "Check-out must be after check-in.";
+      totalEl.textContent = "Chiqish sanasi kirish sanasidan keyin bo'lishi kerak.";
       return;
     }
     var price = +room.options[room.selectedIndex].dataset.price;
+    if (!price) {
+      totalEl.textContent = "Umumiy summani ko'rish uchun xonani tanlang.";
+      return;
+    }
     totalEl.textContent =
       nights +
-      (nights > 1 ? " nights" : " night") +
-      " x $" +
+      " kecha x $" +
       price +
       " = $" +
       nights * price;
@@ -47,7 +50,7 @@
     total();
   }
 
-  /* Rooms page filters */
+  /* Xonalar sahifasi filtrlari */
   var grid = document.getElementById("roomGrid");
   if (!grid) return;
   var f = {
@@ -89,7 +92,7 @@
   apply();
 })();
 
-/* Frontend-only: prefill booking form from URL and handle demo forms */
+/* URL orqali formani oldindan to'ldirish va demo xabarlarni ko'rsatish */
 (function () {
   var q = new URLSearchParams(location.search),
     bf = document.getElementById("bookingForm");
@@ -110,8 +113,8 @@
       t.setAttribute("role", "status");
       t.textContent =
         f.id === "bookingForm"
-          ? "Your reservation request has been received. A confirmation will be sent to your email."
-          : "Thank you. Your message has been sent and we will reply within one business day.";
+          ? "Buyurtma so'rovingiz qabul qilindi. Tasdiqlash xabari elektron pochtangizga yuboriladi."
+          : "Rahmat. Xabaringiz yuborildi, bir ish kuni ichida javob beramiz.";
       document.body.appendChild(t);
       setTimeout(function () {
         t.remove();

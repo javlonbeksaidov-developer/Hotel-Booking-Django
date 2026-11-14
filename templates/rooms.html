@@ -1,87 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
-<style>
-  .room-img {
-    display: block;
-    height: 240px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .room-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .room-card {
-    transition: .3s ease;
-  }
-
-  .room-card[hidden] {
-    display: none !important;
-  }
-
-  .tag {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-  }
-
-  .filters {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    align-items: end;
-    margin-bottom: 35px;
-  }
-
-  .filters .field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .filters select,
-  .filters input[type="range"] {
-    width: 100%;
-  }
-
-  .filters select {
-    padding: 11px;
-    border-radius: 6px;
-  }
-
-  .filters .check {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  @media(max-width: 750px) {
-    .filters {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media(max-width: 450px) {
-    .filters {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+<link rel="stylesheet" href="{% static 'css/rooms.css' %}">
 
 <section class="section">
   <div class="container">
 
-    <!-- FILTERS -->
-    <form class="filters" id="filters" aria-label="Filter rooms">
+    <!-- FILTRLAR -->
+    <form class="filters" id="filters" aria-label="Xonalarni filtrlash">
 
       <div class="field">
-        <label for="fCat">Category</label>
+        <label for="fCat">Kategoriya</label>
         <select id="fCat">
-          <option value="all">All Categories</option>
+          <option value="all">Barcha kategoriyalar</option>
           {% for room_type in room_types %}
           <option value="{{ room_type|lower }}">{{ room_type }}</option>
           {% endfor %}
@@ -90,15 +22,15 @@
 
       <div class="field">
         <label for="fPrice">
-          Max price: $<output id="fPriceOut">1000</output>
+          Maksimal narx: $<output id="fPriceOut">1000</output>
         </label>
-        <input type="range" id="fPrice" min="0" max="1000" step="10" value="1000">
+        <input type="range" id="fPrice" min="0" max="1000" step="5" value="1000">
       </div>
 
       <div class="field">
-        <label for="fGuests">Guests</label>
+        <label for="fGuests">Mehmonlar</label>
         <select id="fGuests">
-          <option value="1">Any</option>
+          <option value="1">Ixtiyoriy</option>
           <option value="2">2+</option>
           <option value="3">3+</option>
           <option value="4">4+</option>
@@ -107,23 +39,23 @@
       </div>
 
       <div class="field">
-        <label for="fSort">Sort by price</label>
+        <label for="fSort">Narx bo'yicha saralash</label>
         <select id="fSort">
-          <option value="none">Default</option>
-          <option value="asc">Low to high</option>
-          <option value="desc">High to low</option>
+          <option value="none">Asl tartib</option>
+          <option value="asc">Arzondan qimmatga</option>
+          <option value="desc">Qimmatdan arzinga</option>
         </select>
       </div>
 
       <label class="check">
         <input type="checkbox" id="fAvail">
-        Available only
+        Faqat bo'sh xonalar
       </label>
 
     </form>
 
 
-    <!-- ROOM GRID -->
+    <!-- XONALAR TO'RPATI (GRID) -->
     <div class="room-grid" id="roomGrid">
 
       {% for room in rooms %}
@@ -132,31 +64,31 @@
         data-price="{{ room.price_per_night }}" data-guests="{{ room.capacity }}"
         data-available="{{ room.is_available|yesno:'1,0' }}">
 
-        <!-- ROOM IMAGE -->
+        <!-- XONA RASMI -->
         <a class="room-img" href="{% url 'hotels:room_detail' room.pk %}">
 
           {% with first_image=room.images.first %}
           {% if first_image %}
           <img src="{{ first_image.image.url }}" alt="{{ room.name }}" loading="lazy" width="600" height="420">
           {% else %}
-          <img src="https://placehold.co/600x420?text=No+Image" alt="No image available">
+          <img src="https://placehold.co/600x420?text=Rasm+yo%27q" alt="Rasm mavjud emas">
           {% endif %}
           {% endwith %}
 
           {% if not room.is_available %}
-          <span class="tag">Sold out</span>
+          <span class="tag">Band qilingan</span>
           {% endif %}
 
         </a>
 
 
-        <!-- ROOM INFORMATION -->
+        <!-- XONA MA'LUMOTLARI -->
         <div class="room-body">
 
           {% if room.is_booked_today %}
-              <span class="tag tag-booked">Bron qilingan</span>
+          <span class="tag tag-booked">Bron qilingan</span>
           {% else %}
-              <span class="tag tag-available">Bo‘sh</span>
+          <span class="tag tag-available">Bo‘sh</span>
           {% endif %}
 
           <p class="cat">{{ room.room_type }}</p>
@@ -172,7 +104,7 @@
           </p>
 
           <ul class="meta">
-            <li>{{ room.capacity }} guests</li>
+            <li>{{ room.capacity }} ta mehmon</li>
             <li>{{ room.size }} m&sup2;</li>
             <li>{{ room.bed_type }}</li>
             <li>{{ room.floor }}-qavatda</li>
@@ -182,18 +114,18 @@
 
             <p class="price">
               ${{ room.price_per_night }}
-              <small>/ night</small>
+              <small>/ kecha</small>
             </p>
 
             <div class="btn-row">
 
               <a class="btn btn-line" href="{% url 'hotels:room_detail' room.pk %}">
-                View Details
+                Batafsil
               </a>
 
               {% if room.is_available %}
               <a class="btn btn-gold" href="{% url 'bookings:booking' %}?room={{ room.pk }}">
-                Book Now
+                Band qilish
               </a>
               {% else %}
               <span class="btn btn-line">
@@ -211,96 +143,17 @@
 
       {% empty %}
 
-      <p class="center muted">No rooms available.</p>
+      <p class="center muted">Hozircha xonalar mavjud emas.</p>
 
       {% endfor %}
 
     </div>
 
     <p class="center muted" id="noRooms" hidden>
-      No rooms match these filters. Try widening your price or guest range.
+      Ushbu filtrlarga mos xonalar topilmadi. Narx yoki mehmonlar oralig'ini o'zgartirib ko'ring.
     </p>
 
   </div>
 </section>
-
-
-<!-- FILTER JAVASCRIPT -->
-<script>
-  const filters = document.getElementById("filters");
-  const roomGrid = document.getElementById("roomGrid");
-
-  const category = document.getElementById("fCat");
-  const price = document.getElementById("fPrice");
-  const priceOutput = document.getElementById("fPriceOut");
-  const guests = document.getElementById("fGuests");
-  const sort = document.getElementById("fSort");
-  const available = document.getElementById("fAvail");
-  const noRooms = document.getElementById("noRooms");
-
-  function filterRooms() {
-    const cards = [...roomGrid.querySelectorAll(".room-card")];
-
-    const selectedCategory = category.value;
-    const maxPrice = Number(price.value);
-    const minGuests = Number(guests.value);
-
-    priceOutput.value = maxPrice;
-
-    cards.forEach(card => {
-      const cardCategory = card.dataset.category;
-      const cardPrice = Number(card.dataset.price);
-      const cardGuests = Number(card.dataset.guests);
-      const cardAvailable = card.dataset.available === "1";
-
-      const categoryMatch =
-        selectedCategory === "all" ||
-        cardCategory === selectedCategory;
-
-      const priceMatch = cardPrice <= maxPrice;
-      const guestsMatch = cardGuests >= minGuests;
-      const availabilityMatch = !available.checked || cardAvailable;
-
-      card.hidden = !(
-        categoryMatch &&
-        priceMatch &&
-        guestsMatch &&
-        availabilityMatch
-      );
-    });
-
-    noRooms.hidden = cards.some(card => !card.hidden);
-  }
-
-  function sortRooms() {
-    const cards = [...roomGrid.querySelectorAll(".room-card")];
-
-    if (sort.value === "asc") {
-      cards.sort((a, b) =>
-        Number(a.dataset.price) - Number(b.dataset.price)
-      );
-    } else if (sort.value === "desc") {
-      cards.sort((a, b) =>
-        Number(b.dataset.price) - Number(a.dataset.price)
-      );
-    }
-
-    cards.forEach(card => roomGrid.appendChild(card));
-
-    filterRooms();
-  }
-
-  category.addEventListener("change", filterRooms);
-  price.addEventListener("input", filterRooms);
-  guests.addEventListener("change", filterRooms);
-  available.addEventListener("change", filterRooms);
-  sort.addEventListener("change", sortRooms);
-
-  filters.addEventListener("submit", function (e) {
-    e.preventDefault();
-  });
-
-  filterRooms();
-</script>
 
 {% endblock content %}

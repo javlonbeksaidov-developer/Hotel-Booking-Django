@@ -5,26 +5,26 @@
   <div class="container split">
     <div>
       <ul class="spec">
-        <li><span>Address</span>{{hotel.address}}, {{hotel.city}}, {{hotel.country}}</li>
-        <li><span>Phone</span><a href="tel:+{{hotel.phone_number}}">{{hotel.phone_number}}</a></li>
-        <li><span>Email</span><a href="mailto:{{hotel.email}}">{{hotel.email}}</a></li>
-        <li><span>Hours</span>Reception open 24 hours</li>
+        <li><span>Manzil</span>{{hotel.address}}, {{hotel.city}}, {{hotel.country}}</li>
+        <li><span>Telefon</span><a href="tel:+{{hotel.phone_number}}">{{hotel.phone_number}}</a></li>
+        <li><span>Elektron pochta</span><a href="mailto:{{hotel.email}}">{{hotel.email}}</a></li>
+        <li><span>Ish vaqti</span>Qabulxona 24 soat ochiq</li>
       </ul>
-      <div class="map-box small"><iframe title="Hotel map" loading="lazy"
+      <div class="map-box small"><iframe title="Mehmonxona xaritasi" loading="lazy"
           src="https://www.openstreetmap.org/export/embed.html?bbox=69.25,41.29,69.31,41.33&amp;layer=mapnik"></iframe>
       </div>
     </div>
 
-    <form class="form" method="post", action="{% url 'hotels:contact' %}">
+    <form class="form" method="post" action="{% url 'hotels:contact' %}">
       {% csrf_token %}
-      <div class="field"><label for="cname">Full name</label><input id="cname" name="name" required autocomplete="name">
+      <div class="field"><label for="cname">To'liq ismingiz</label><input id="cname" name="name" required autocomplete="name">
       </div>
-      <div class="field"><label for="cemail">Email</label><input id="cemail" type="email" name="email" required
+      <div class="field"><label for="cemail">Elektron pochta</label><input id="cemail" type="email" name="email" required
           autocomplete="email"></div>
-      <div class="field"><label for="csub">Subject</label><input id="csub" name="subject" required></div>
-      <div class="field"><label for="cmsg">Message</label><textarea id="cmsg" name="message" rows="5"
+      <div class="field"><label for="csub">Mavzu</label><input id="csub" name="subject" required></div>
+      <div class="field"><label for="cmsg">Xabar</label><textarea id="cmsg" name="message" rows="5"
           required></textarea></div>
-      <button class="btn btn-gold" type="submit">Send Message</button>
+      <button class="btn btn-gold" type="submit">Xabar yuborish</button>
     </form>
 
   </div>
